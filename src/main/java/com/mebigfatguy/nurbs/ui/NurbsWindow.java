@@ -17,18 +17,36 @@
  */
 package com.mebigfatguy.nurbs.ui;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+
+import com.mebigfatguy.nurbs.ui.actions.QuitAction;
 
 public class NurbsWindow extends JFrame {
 
+	private static final WindowListener CLOSE_LISTENER = new CloseListener();
+
 	private JMenu fileMenu;
+	private JMenuItem quitItem;
+
 	private JMenu editMenu;
+	private JMenuItem undoItem;
+	private JMenuItem cutItem;
+	private JMenuItem copyItem;
+	private JMenuItem pasteItem;
+	private JMenuItem clearItem;
 
 	public NurbsWindow() {
 		setupMenus();
+
+		addWindowListener(CLOSE_LISTENER);
 
 		JScrollPane scroller = new JScrollPane(new NurbsPanel());
 		setContentPane(scroller);
@@ -38,12 +56,26 @@ public class NurbsWindow extends JFrame {
 
 		JMenuBar bar = new JMenuBar();
 		fileMenu = new JMenu("File");
+		quitItem = new JMenuItem("Quit");
+		quitItem.addActionListener(QuitAction.get());
+		fileMenu.add(quitItem);
 		bar.add(fileMenu);
 
 		editMenu = new JMenu("Edit");
 		bar.add(editMenu);
 
 		setJMenuBar(bar);
+	}
+
+	private static class CloseListener extends WindowAdapter {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			e.getWindow().dispose();
+			if (NurbsWindowSystem.get().getTopNurbsWindow() == null) {
+				System.exit(0);
+			}
+		}
 	}
 
 }

@@ -28,18 +28,40 @@ import javax.swing.JFrame;
 public class NurbsWindowSystem {
 
 	private static final int OFFSET = 50;
+	private static final NurbsWindowSystem WINDOW_SYSTEM = new NurbsWindowSystem();
 
 	private ToolPalette toolPalette;
 	private int nextWindow = 1;
 
-	public void begin() {
+	public static final NurbsWindowSystem get() {
+		return WINDOW_SYSTEM;
+	}
+
+	private NurbsWindowSystem() {
 		toolPalette = createToolPalette();
 		NurbsWindow nw = createNurbsWindow();
 		nw.setVisible(true);
 		toolPalette.setVisible(true);
 	}
 
-	public void end() {
+	public boolean closeAll() {
+		for (Frame f : JFrame.getFrames()) {
+			if (f.isVisible() && f instanceof NurbsWindow) {
+				// check for save actions
+				((NurbsWindow) f).dispose();
+			}
+		}
+		return true;
+	}
+
+	public NurbsWindow getTopNurbsWindow() {
+		for (Frame f : JFrame.getFrames()) {
+			if (f.isVisible() && f instanceof NurbsWindow) {
+				return (NurbsWindow) f;
+			}
+		}
+
+		return null;
 	}
 
 	private ToolPalette createToolPalette() {
@@ -69,13 +91,4 @@ public class NurbsWindowSystem {
 		return nw;
 	}
 
-	private NurbsWindow getTopNurbsWindow() {
-		for (Frame f : JFrame.getFrames()) {
-			if (f.isVisible() && f instanceof NurbsWindow) {
-				return (NurbsWindow) f;
-			}
-		}
-
-		return null;
-	}
 }

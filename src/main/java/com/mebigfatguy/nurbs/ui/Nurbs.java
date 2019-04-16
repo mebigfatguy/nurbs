@@ -21,11 +21,6 @@ public class Nurbs {
 
 	public static void main(String[] args) {
 
-		NurbsWindowSystem w = new NurbsWindowSystem();
-		try {
-			w.begin();
-		} finally {
-			w.end();
-		}
+		NurbsWindowSystem w = NurbsWindowSystem.get();
 	}
 }
