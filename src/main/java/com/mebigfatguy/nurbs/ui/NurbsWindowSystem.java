@@ -72,7 +72,7 @@ public class NurbsWindowSystem {
 
 	private NurbsWindow createNurbsWindow() {
 		NurbsWindow nw = new NurbsWindow();
-		nw.setTitle("Nurbs - " + nextWindow);
+		nw.setTitle(NurbsBundle.getParamString(NurbsBundle.NURBS_TITLE, nextWindow++));
 
 		NurbsWindow top = getTopNurbsWindow();
 		if (top == null) {

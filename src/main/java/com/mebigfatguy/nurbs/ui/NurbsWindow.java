@@ -31,51 +31,51 @@ import com.mebigfatguy.nurbs.ui.actions.QuitAction;
 
 public class NurbsWindow extends JFrame {
 
-	private static final WindowListener CLOSE_LISTENER = new CloseListener();
+    private static final WindowListener CLOSE_LISTENER = new CloseListener();
 
-	private JMenu fileMenu;
-	private JMenuItem quitItem;
+    private JMenu fileMenu;
+    private JMenuItem quitItem;
 
-	private JMenu editMenu;
-	private JMenuItem undoItem;
-	private JMenuItem cutItem;
-	private JMenuItem copyItem;
-	private JMenuItem pasteItem;
-	private JMenuItem clearItem;
+    private JMenu editMenu;
+    private JMenuItem undoItem;
+    private JMenuItem cutItem;
+    private JMenuItem copyItem;
+    private JMenuItem pasteItem;
+    private JMenuItem clearItem;
 
-	public NurbsWindow() {
-		setupMenus();
+    public NurbsWindow() {
+        setupMenus();
 
-		addWindowListener(CLOSE_LISTENER);
+        addWindowListener(CLOSE_LISTENER);
 
-		JScrollPane scroller = new JScrollPane(new NurbsPanel());
-		setContentPane(scroller);
-	}
+        JScrollPane scroller = new JScrollPane(new NurbsPanel());
+        setContentPane(scroller);
+    }
 
-	private void setupMenus() {
+    private void setupMenus() {
 
-		JMenuBar bar = new JMenuBar();
-		fileMenu = new JMenu("File");
-		quitItem = new JMenuItem("Quit");
-		quitItem.addActionListener(QuitAction.get());
-		fileMenu.add(quitItem);
-		bar.add(fileMenu);
+        JMenuBar bar = new JMenuBar();
+        fileMenu = new JMenu(NurbsBundle.getString(NurbsBundle.FILE_MENU));
+        quitItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.QUIT_ITEM));
+        quitItem.addActionListener(QuitAction.get());
+        fileMenu.add(quitItem);
+        bar.add(fileMenu);
 
-		editMenu = new JMenu("Edit");
-		bar.add(editMenu);
+        editMenu = new JMenu(NurbsBundle.getString(NurbsBundle.EDIT_MENU));
+        bar.add(editMenu);
 
-		setJMenuBar(bar);
-	}
+        setJMenuBar(bar);
+    }
 
-	private static class CloseListener extends WindowAdapter {
+    private static class CloseListener extends WindowAdapter {
 
-		@Override
-		public void windowClosing(WindowEvent e) {
-			e.getWindow().dispose();
-			if (NurbsWindowSystem.get().getTopNurbsWindow() == null) {
-				System.exit(0);
-			}
-		}
-	}
+        @Override
+        public void windowClosing(WindowEvent e) {
+            e.getWindow().dispose();
+            if (NurbsWindowSystem.get().getTopNurbsWindow() == null) {
+                System.exit(0);
+            }
+        }
+    }
 
 }
