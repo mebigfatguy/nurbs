@@ -32,7 +32,7 @@ public class NurbsPanel extends JPanel {
 
     public NurbsPanel() {
         scaleFactor = 1.0;
-        pageSize = new Dimension(1000, 1000);
+        pageSize = new Dimension(800, 800);
     }
 
     @Override
