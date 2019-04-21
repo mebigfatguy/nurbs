@@ -28,6 +28,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
 import com.mebigfatguy.nurbs.ui.actions.QuitAction;
+import com.mebigfatguy.nurbs.ui.actions.ZoomAction;
 
 public class NurbsWindow extends JFrame {
 
@@ -42,6 +43,14 @@ public class NurbsWindow extends JFrame {
     private JMenuItem copyItem;
     private JMenuItem pasteItem;
     private JMenuItem clearItem;
+
+    private JMenu zoomMenu;
+    private JMenuItem zoomToFitItem;
+    private JMenuItem zoom25Item;
+    private JMenuItem zoom50Item;
+    private JMenuItem zoom100Item;
+    private JMenuItem zoom200Item;
+    private JMenuItem zoom400Item;
 
     public NurbsWindow() {
         setupMenus();
@@ -63,6 +72,35 @@ public class NurbsWindow extends JFrame {
 
         editMenu = new JMenu(NurbsBundle.getString(NurbsBundle.EDIT_MENU));
         bar.add(editMenu);
+
+        zoomMenu = new JMenu(NurbsBundle.getString(NurbsBundle.ZOOM_MENU));
+        zoomToFitItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_TO_FIT_ITEM));
+        zoomToFitItem.setActionCommand(NurbsBundle.ZOOM_TO_FIT_ITEM.name());
+        zoomToFitItem.addActionListener(ZoomAction.get());
+        zoomMenu.add(zoomToFitItem);
+        zoomMenu.addSeparator();
+        zoom25Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_25_ITEM));
+        zoom25Item.setActionCommand(NurbsBundle.ZOOM_25_ITEM.name());
+        zoom25Item.addActionListener(ZoomAction.get());
+        zoomMenu.add(zoom25Item);
+        zoom50Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_50_ITEM));
+        zoom50Item.setActionCommand(NurbsBundle.ZOOM_50_ITEM.name());
+        zoom50Item.addActionListener(ZoomAction.get());
+        zoomMenu.add(zoom50Item);
+        zoom100Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_100_ITEM));
+        zoom100Item.setActionCommand(NurbsBundle.ZOOM_100_ITEM.name());
+        zoom100Item.addActionListener(ZoomAction.get());
+        zoomMenu.add(zoom100Item);
+        zoom200Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_200_ITEM));
+        zoom200Item.setActionCommand(NurbsBundle.ZOOM_200_ITEM.name());
+        zoom200Item.addActionListener(ZoomAction.get());
+        zoomMenu.add(zoom200Item);
+        zoom400Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_400_ITEM));
+        zoom400Item.setActionCommand(NurbsBundle.ZOOM_400_ITEM.name());
+        zoom400Item.addActionListener(ZoomAction.get());
+        zoomMenu.add(zoom400Item);
+
+        bar.add(zoomMenu);
 
         setJMenuBar(bar);
     }

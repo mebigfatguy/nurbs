@@ -27,7 +27,15 @@ public enum NurbsBundle {
 	NURBS_TITLE,
 	FILE_MENU,
 	QUIT_ITEM,
-	EDIT_MENU;
+	EDIT_MENU,
+	ZOOM_MENU,
+	ZOOM_TO_FIT_ITEM,
+	ZOOM_25_ITEM,
+	ZOOM_50_ITEM,
+	ZOOM_100_ITEM,
+	ZOOM_200_ITEM,
+	ZOOM_400_ITEM;
+
 	// @formatter:on
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("com.mebigfatguy.nurbs.nurbs");
