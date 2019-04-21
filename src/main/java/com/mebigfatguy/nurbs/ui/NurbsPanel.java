@@ -27,12 +27,12 @@ public class NurbsPanel extends JPanel {
 
     private static final int BORDER_SIZE = 20;
 
-    private double scaleFactor;
+    private double zoomFactor;
     private Dimension pageSize;
 
     public NurbsPanel() {
-        scaleFactor = 1.0;
-        pageSize = new Dimension(800, 800);
+        zoomFactor = 1.0;
+        pageSize = new Dimension(1000, 1000);
     }
 
     @Override
@@ -59,8 +59,13 @@ public class NurbsPanel extends JPanel {
         Dimension sz = (Dimension) pageSize.clone();
         sz.width += 2 * BORDER_SIZE;
         sz.height += 2 * BORDER_SIZE;
-        sz.width *= scaleFactor;
-        sz.height *= scaleFactor;
+        sz.width *= zoomFactor;
+        sz.height *= zoomFactor;
         return sz;
     }
+
+    public void setZoomLevel(ZoomLevel level) {
+
+    }
+
 }

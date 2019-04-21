@@ -20,7 +20,9 @@ package com.mebigfatguy.nurbs.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.mebigfatguy.nurbs.ui.NurbsBundle;
+import com.mebigfatguy.nurbs.ui.NurbsWindow;
+import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
+import com.mebigfatguy.nurbs.ui.ZoomLevel;
 
 public class ZoomAction implements ActionListener {
 
@@ -35,26 +37,10 @@ public class ZoomAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        switch (NurbsBundle.valueOf(e.getActionCommand())) {
 
-            case ZOOM_25_ITEM:
-                break;
-
-            case ZOOM_50_ITEM:
-                break;
-
-            case ZOOM_100_ITEM:
-                break;
-
-            case ZOOM_200_ITEM:
-                break;
-
-            case ZOOM_400_ITEM:
-                break;
-
-            case ZOOM_TO_FIT_ITEM:
-            default:
-                break;
+        NurbsWindow nw = NurbsWindowSystem.get().getTopNurbsWindow();
+        if (nw != null) {
+            nw.setZoomLevel(ZoomLevel.fromActionString(e.getActionCommand()));
         }
     }
 

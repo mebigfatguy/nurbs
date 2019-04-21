@@ -20,7 +20,10 @@ package com.mebigfatguy.nurbs.ui;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -45,23 +48,33 @@ public class NurbsWindow extends JFrame {
     private JMenuItem clearItem;
 
     private JMenu zoomMenu;
-    private JMenuItem zoomToFitItem;
-    private JMenuItem zoom25Item;
-    private JMenuItem zoom50Item;
-    private JMenuItem zoom100Item;
-    private JMenuItem zoom200Item;
-    private JMenuItem zoom400Item;
+    private Map<ZoomLevel, JMenuItem> zoomItems = new HashMap<>();
+
+    private NurbsPanel nurbsPanel;
 
     public NurbsWindow() {
         setupMenus();
 
         addWindowListener(CLOSE_LISTENER);
 
-        JScrollPane scroller = new JScrollPane(new NurbsPanel());
+        nurbsPanel = new NurbsPanel();
+        setZoomLevel(ZoomLevel.ZOOM_TO_FIT);
+        JScrollPane scroller = new JScrollPane(nurbsPanel);
         setContentPane(scroller);
     }
 
+    public void setZoomLevel(ZoomLevel level) {
+        JMenuItem selected = zoomItems.get(level);
+
+        for (JMenuItem mi : zoomItems.values()) {
+            mi.setSelected(mi == selected);
+        }
+        nurbsPanel.setZoomLevel(level);
+    }
+
     private void setupMenus() {
+
+        JMenuItem item;
 
         JMenuBar bar = new JMenuBar();
         fileMenu = new JMenu(NurbsBundle.getString(NurbsBundle.FILE_MENU));
@@ -74,31 +87,44 @@ public class NurbsWindow extends JFrame {
         bar.add(editMenu);
 
         zoomMenu = new JMenu(NurbsBundle.getString(NurbsBundle.ZOOM_MENU));
-        zoomToFitItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_TO_FIT_ITEM));
-        zoomToFitItem.setActionCommand(NurbsBundle.ZOOM_TO_FIT_ITEM.name());
-        zoomToFitItem.addActionListener(ZoomAction.get());
-        zoomMenu.add(zoomToFitItem);
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_TO_FIT_ITEM));
+        item.setActionCommand(NurbsBundle.ZOOM_TO_FIT_ITEM.name());
+        item.addActionListener(ZoomAction.get());
+        item.setSelected(true);
+        zoomMenu.add(item);
+        zoomItems.put(ZoomLevel.ZOOM_TO_FIT, item);
+
         zoomMenu.addSeparator();
-        zoom25Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_25_ITEM));
-        zoom25Item.setActionCommand(NurbsBundle.ZOOM_25_ITEM.name());
-        zoom25Item.addActionListener(ZoomAction.get());
-        zoomMenu.add(zoom25Item);
-        zoom50Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_50_ITEM));
-        zoom50Item.setActionCommand(NurbsBundle.ZOOM_50_ITEM.name());
-        zoom50Item.addActionListener(ZoomAction.get());
-        zoomMenu.add(zoom50Item);
-        zoom100Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_100_ITEM));
-        zoom100Item.setActionCommand(NurbsBundle.ZOOM_100_ITEM.name());
-        zoom100Item.addActionListener(ZoomAction.get());
-        zoomMenu.add(zoom100Item);
-        zoom200Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_200_ITEM));
-        zoom200Item.setActionCommand(NurbsBundle.ZOOM_200_ITEM.name());
-        zoom200Item.addActionListener(ZoomAction.get());
-        zoomMenu.add(zoom200Item);
-        zoom400Item = new JMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_400_ITEM));
-        zoom400Item.setActionCommand(NurbsBundle.ZOOM_400_ITEM.name());
-        zoom400Item.addActionListener(ZoomAction.get());
-        zoomMenu.add(zoom400Item);
+
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_25_ITEM));
+        item.setActionCommand(NurbsBundle.ZOOM_25_ITEM.name());
+        item.addActionListener(ZoomAction.get());
+        zoomMenu.add(item);
+        zoomItems.put(ZoomLevel.ZOOM_25, item);
+
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_50_ITEM));
+        item.setActionCommand(NurbsBundle.ZOOM_50_ITEM.name());
+        item.addActionListener(ZoomAction.get());
+        zoomMenu.add(item);
+        zoomItems.put(ZoomLevel.ZOOM_50, item);
+
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_100_ITEM));
+        item.setActionCommand(NurbsBundle.ZOOM_100_ITEM.name());
+        item.addActionListener(ZoomAction.get());
+        zoomMenu.add(item);
+        zoomItems.put(ZoomLevel.ZOOM_100, item);
+
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_200_ITEM));
+        item.setActionCommand(NurbsBundle.ZOOM_200_ITEM.name());
+        item.addActionListener(ZoomAction.get());
+        zoomMenu.add(item);
+        zoomItems.put(ZoomLevel.ZOOM_200, item);
+
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_400_ITEM));
+        item.setActionCommand(NurbsBundle.ZOOM_400_ITEM.name());
+        item.addActionListener(ZoomAction.get());
+        zoomMenu.add(item);
+        zoomItems.put(ZoomLevel.ZOOM_400, item);
 
         bar.add(zoomMenu);
 
