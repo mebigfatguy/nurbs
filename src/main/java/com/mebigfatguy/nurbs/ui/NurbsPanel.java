@@ -20,34 +20,44 @@ package com.mebigfatguy.nurbs.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+import javax.swing.JViewport;
 
 public class NurbsPanel extends JPanel {
 
-    private static final int BORDER_SIZE = 20;
+    private static final int DEFAULT_SIZE = 1000;
 
     private double zoomFactor;
     private Dimension pageSize;
 
     public NurbsPanel() {
         zoomFactor = 1.0;
-        pageSize = new Dimension(1000, 1000);
+        pageSize = new Dimension(DEFAULT_SIZE, DEFAULT_SIZE);
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        Graphics render = g.create();
+        Graphics2D render = (Graphics2D) g.create();
         try {
             render.setColor(Color.GRAY);
-            Dimension sz = getSize();
-            render.fillRect(0, 0, sz.width, sz.height);
+            JViewport viewPort = (JViewport) getParent();
+            Dimension viewSize = viewPort.getSize();
+            render.fillRect(0, 0, viewSize.width, viewSize.height);
+
+            Dimension scaledPageSize = (Dimension) pageSize.clone();
+            scaledPageSize.width *= zoomFactor;
+            scaledPageSize.height *= zoomFactor;
 
             // need to scale the page
             render.setColor(Color.WHITE);
-            render.fillRect(BORDER_SIZE, BORDER_SIZE, pageSize.width, pageSize.height);
+
+            int xOffset = (viewSize.width - scaledPageSize.width) / 2;
+            int yOffset = (viewSize.height - scaledPageSize.height) / 2;
+            render.fillRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
             render.setColor(Color.BLACK);
-            render.drawRect(BORDER_SIZE, BORDER_SIZE, pageSize.width, pageSize.height);
+            render.drawRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
 
         } finally {
             render.dispose();
@@ -57,15 +67,25 @@ public class NurbsPanel extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         Dimension sz = (Dimension) pageSize.clone();
-        sz.width += 2 * BORDER_SIZE;
-        sz.height += 2 * BORDER_SIZE;
         sz.width *= zoomFactor;
         sz.height *= zoomFactor;
         return sz;
     }
 
     public void setZoomLevel(ZoomLevel level) {
+        invalidate();
+        JViewport viewPort = (JViewport) getParent();
+        if (viewPort == null) {
+            return;
+        }
 
+        Dimension viewSize = viewPort.getSize();
+        if (viewSize.width == 0 || viewSize.height == 0) {
+            viewSize.width = DEFAULT_SIZE;
+            viewSize.height = DEFAULT_SIZE;
+        }
+        zoomFactor = level.getZoomLevel(pageSize, viewSize);
+        revalidate();
+        repaint();
     }
-
 }

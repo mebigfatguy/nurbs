@@ -17,6 +17,9 @@
  */
 package com.mebigfatguy.nurbs.ui;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -36,6 +39,7 @@ import com.mebigfatguy.nurbs.ui.actions.ZoomAction;
 public class NurbsWindow extends JFrame {
 
     private static final WindowListener CLOSE_LISTENER = new CloseListener();
+    private static final ComponentListener RESIZE_LISTENER = new ResizeListener();
 
     private JMenu fileMenu;
     private JMenuItem quitItem;
@@ -51,11 +55,13 @@ public class NurbsWindow extends JFrame {
     private Map<ZoomLevel, JMenuItem> zoomItems = new HashMap<>();
 
     private NurbsPanel nurbsPanel;
+    private ZoomLevel zoomLevel;
 
     public NurbsWindow() {
         setupMenus();
 
         addWindowListener(CLOSE_LISTENER);
+        addComponentListener(RESIZE_LISTENER);
 
         nurbsPanel = new NurbsPanel();
         setZoomLevel(ZoomLevel.ZOOM_TO_FIT);
@@ -64,6 +70,7 @@ public class NurbsWindow extends JFrame {
     }
 
     public void setZoomLevel(ZoomLevel level) {
+        zoomLevel = level;
         JMenuItem selected = zoomItems.get(level);
 
         for (JMenuItem mi : zoomItems.values()) {
@@ -140,6 +147,16 @@ public class NurbsWindow extends JFrame {
                 System.exit(0);
             }
         }
+    }
+
+    private static class ResizeListener extends ComponentAdapter {
+
+        @Override
+        public void componentResized(ComponentEvent e) {
+            NurbsWindow nw = (NurbsWindow) e.getSource();
+            nw.setZoomLevel(nw.zoomLevel);
+        }
+
     }
 
 }

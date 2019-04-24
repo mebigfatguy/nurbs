@@ -17,6 +17,8 @@
  */
 package com.mebigfatguy.nurbs.model;
 
+import java.util.List;
+
 public class NurbsModel {
     private List<NurbsSurface> surfaces;
 }

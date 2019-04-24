@@ -56,8 +56,8 @@ public enum ZoomLevel {
 
             case ZOOM_TO_FIT:
             default:
-                int hDiff = pageSize.width / windowSize.width;
-                int vDiff = pageSize.height / windowSize.height;
+                double hDiff = (double) windowSize.width / pageSize.width;
+                double vDiff = (double) windowSize.height / pageSize.height;
                 return hDiff < vDiff ? hDiff : vDiff;
         }
     }
