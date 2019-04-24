@@ -20,6 +20,7 @@ package com.mebigfatguy.nurbs.ui;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -32,6 +33,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 
 import com.mebigfatguy.nurbs.ui.actions.QuitAction;
 import com.mebigfatguy.nurbs.ui.actions.ZoomAction;
@@ -85,8 +87,10 @@ public class NurbsWindow extends JFrame {
 
         JMenuBar bar = new JMenuBar();
         fileMenu = new JMenu(NurbsBundle.getString(NurbsBundle.FILE_MENU));
-        quitItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.QUIT_ITEM));
+        quitItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.QUIT_ITEM), KeyEvent.VK_Q);
         quitItem.addActionListener(QuitAction.get());
+        quitItem.setMnemonic('Q');
+        quitItem.setAccelerator(KeyStroke.getKeyStroke("control Q"));
         fileMenu.add(quitItem);
         bar.add(fileMenu);
 
