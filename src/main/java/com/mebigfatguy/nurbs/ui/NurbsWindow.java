@@ -110,7 +110,6 @@ public class NurbsWindow extends JFrame {
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_25_ITEM));
         item.setActionCommand(NurbsBundle.ZOOM_25_ITEM.name());
         item.addActionListener(ZoomAction.get());
-        zoomMenu.add(item);
         zoomItems.put(ZoomLevel.ZOOM_25, item);
 
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.ZOOM_50_ITEM));
