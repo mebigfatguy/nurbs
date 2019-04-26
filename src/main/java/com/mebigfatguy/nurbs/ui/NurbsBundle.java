@@ -38,7 +38,7 @@ public enum NurbsBundle {
 
 	// @formatter:on
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("com.mebigfatguy.nurbs.nurbs");
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("com.mebigfatguy.nurbs.ui.nurbs");
 
     public static String getString(NurbsBundle b) {
         return bundle.getString(b.name());
