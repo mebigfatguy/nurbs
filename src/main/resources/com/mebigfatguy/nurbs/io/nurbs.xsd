@@ -1,0 +1,68 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:complexType name="NurbsType">
+		<xsd:sequence>
+			<xsd:element name="environment" type="EnvironmentType" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="objects" type="ObjectsType" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="EnvironmentType">
+		<xsd:sequence>
+			<xsd:element name="lookat" type="PointType" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="lookfrom" type="PointType" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="PointType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\(\d,\d,\d\)" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ObjectsType">
+		<xsd:sequence>
+			<xsd:element name="group" type="GroupType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="mesh" type="MeshType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GroupType">
+		<xsd:sequence>
+            <xsd:element name="objects" type="ObjectsType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="MeshType">
+		<xsd:sequence>
+			<xsd:element name="grid" type="GridType" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="knots" type="KnotsType" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="GridType">
+		<xsd:simpleContent>
+			<xsd:restriction base="xsd:string">
+				<xsd:pattern value="\(\d+,\d+,\d+,\d+\))(,\(\d+,\d+,\d+,\d+\)))*" />
+			</xsd:restriction>
+		</xsd:simpleContent>
+		<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="KnotsType">
+		<xsd:simpleContent>
+			<xsd:restriction base="xsd:string">
+				<xsd:pattern value="\d(,\d)*" />
+			</xsd:restriction>
+		</xsd:simpleContent>
+
+		<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="uClosed" type="xsd:boolean" />
+		<xsd:attribute name="vClosed" type="xsd:boolean" />
+	</xsd:complexType>
+
+	<xsd:element name="nurbs" type="NurbsType" />
+
+</xsd:schema>
