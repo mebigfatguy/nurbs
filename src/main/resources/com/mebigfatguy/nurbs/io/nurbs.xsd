@@ -29,7 +29,7 @@
 
 	<xsd:complexType name="GroupType">
 		<xsd:sequence>
-            <xsd:element name="objects" type="ObjectsType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="objects" type="ObjectsType" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -38,6 +38,8 @@
 			<xsd:element name="grid" type="GridType" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="knots" type="KnotsType" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
+        <xsd:attribute name="uOrder" type="xsd:positiveInteger" use="required"/>
+        <xsd:attribute name="vOrder" type="xsd:positiveInteger" use="required"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="GridType">
