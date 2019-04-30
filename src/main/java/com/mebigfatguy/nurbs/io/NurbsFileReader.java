@@ -15,8 +15,21 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.mebigfatguy.nurbs.model;
+package com.mebigfatguy.nurbs.io;
 
-public class NurbsSurface {
+import java.nio.file.Path;
 
+import com.mebigfatguy.nurbs.model.NurbsModel;
+
+public class NurbsFileReader {
+
+    private Path nurbsPath;
+
+    public NurbsFileReader(Path path) {
+        nurbsPath = path;
+    }
+
+    public NurbsModel readModel() {
+
+    }
 }

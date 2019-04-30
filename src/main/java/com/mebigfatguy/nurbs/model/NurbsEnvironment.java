@@ -17,9 +17,13 @@
  */
 package com.mebigfatguy.nurbs.model;
 
-import java.util.List;
+public class NurbsEnvironment {
 
-public class NurbsModel {
-    private NurbsEnvornment environment;
-    private List<NurbsMesh> surfaces;
+    private double[] lookAt;
+    private double[] lookFrom;
+
+    public NurbsEnvironment(double[] at, double[] from) {
+        lookAt = at;
+        lookFrom = from;
+    }
 }
