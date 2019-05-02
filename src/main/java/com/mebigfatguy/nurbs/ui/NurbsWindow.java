@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class NurbsWindow extends JFrame {
     private NurbsPanel nurbsPanel;
     private ZoomLevel zoomLevel;
 
-    public NurbsWindow() {
+    public NurbsWindow(Path p) {
         setupMenus();
 
         addWindowListener(CLOSE_LISTENER);

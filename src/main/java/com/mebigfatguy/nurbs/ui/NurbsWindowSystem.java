@@ -22,73 +22,84 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.nio.file.Path;
 
 import javax.swing.JFrame;
 
 public class NurbsWindowSystem {
 
-	private static final int OFFSET = 50;
-	private static final NurbsWindowSystem WINDOW_SYSTEM = new NurbsWindowSystem();
+    private static final int OFFSET = 50;
+    private static final NurbsWindowSystem WINDOW_SYSTEM = new NurbsWindowSystem();
 
-	private ToolPalette toolPalette;
-	private int nextWindow = 1;
+    private ToolPalette toolPalette;
+    private int nextWindow = 1;
 
-	public static final NurbsWindowSystem get() {
-		return WINDOW_SYSTEM;
-	}
+    public static final NurbsWindowSystem get() {
+        return WINDOW_SYSTEM;
+    }
 
-	private NurbsWindowSystem() {
-		toolPalette = createToolPalette();
-		NurbsWindow nw = createNurbsWindow();
-		nw.setVisible(true);
-		toolPalette.setVisible(true);
-	}
+    private NurbsWindowSystem() {
+        toolPalette = createToolPalette();
+        NurbsWindow nw = createNurbsWindow(null);
+        nw.setVisible(true);
+        toolPalette.setVisible(true);
+    }
 
-	public boolean closeAll() {
-		for (Frame f : JFrame.getFrames()) {
-			if (f.isVisible() && f instanceof NurbsWindow) {
-				// check for save actions
-				((NurbsWindow) f).dispose();
-			}
-		}
-		return true;
-	}
+    public void newWindow() {
+        NurbsWindow nw = createNurbsWindow(null);
+        nw.setVisible(true);
+    }
 
-	public NurbsWindow getTopNurbsWindow() {
-		for (Frame f : JFrame.getFrames()) {
-			if (f.isVisible() && f instanceof NurbsWindow) {
-				return (NurbsWindow) f;
-			}
-		}
+    public void newWindow(Path file) {
+        NurbsWindow nw = createNurbsWindow(file);
+        nw.setVisible(true);
+    }
 
-		return null;
-	}
+    public boolean closeAll() {
+        for (Frame f : JFrame.getFrames()) {
+            if (f.isVisible() && f instanceof NurbsWindow) {
+                // check for save actions
+                ((NurbsWindow) f).dispose();
+            }
+        }
+        return true;
+    }
 
-	private ToolPalette createToolPalette() {
-		ToolPalette tp = new ToolPalette();
-		tp.setLocation(new Point(OFFSET * 2, OFFSET * 2));
-		return tp;
-	}
+    public NurbsWindow getTopNurbsWindow() {
+        for (Frame f : JFrame.getFrames()) {
+            if (f.isVisible() && f instanceof NurbsWindow) {
+                return (NurbsWindow) f;
+            }
+        }
 
-	private NurbsWindow createNurbsWindow() {
-		NurbsWindow nw = new NurbsWindow();
-		nw.setTitle(NurbsBundle.getParamString(NurbsBundle.NURBS_TITLE, nextWindow++));
+        return null;
+    }
 
-		NurbsWindow top = getTopNurbsWindow();
-		if (top == null) {
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-			Rectangle bounds = defaultScreen.getDefaultConfiguration().getBounds();
-			nw.setLocation(bounds.x + OFFSET, bounds.y + OFFSET);
-			nw.setSize(bounds.width - 2 * OFFSET, bounds.height - 2 * OFFSET);
-		} else {
-			nw.setSize(top.getSize());
-			Point pt = top.getLocation();
-			pt.x += OFFSET;
-			pt.y += OFFSET;
-			nw.setLocation(pt);
-		}
-		return nw;
-	}
+    private ToolPalette createToolPalette() {
+        ToolPalette tp = new ToolPalette();
+        tp.setLocation(new Point(OFFSET * 2, OFFSET * 2));
+        return tp;
+    }
+
+    private NurbsWindow createNurbsWindow(Path p) {
+        NurbsWindow nw = new NurbsWindow(p);
+        nw.setTitle(NurbsBundle.getParamString(NurbsBundle.NURBS_TITLE, nextWindow++));
+
+        NurbsWindow top = getTopNurbsWindow();
+        if (top == null) {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+            Rectangle bounds = defaultScreen.getDefaultConfiguration().getBounds();
+            nw.setLocation(bounds.x + OFFSET, bounds.y + OFFSET);
+            nw.setSize(bounds.width - 2 * OFFSET, bounds.height - 2 * OFFSET);
+        } else {
+            nw.setSize(top.getSize());
+            Point pt = top.getLocation();
+            pt.x += OFFSET;
+            pt.y += OFFSET;
+            nw.setLocation(pt);
+        }
+        return nw;
+    }
 
 }

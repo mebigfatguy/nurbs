@@ -19,10 +19,18 @@ package com.mebigfatguy.nurbs.ui.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.nio.file.Path;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+
+import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
 
 public class OpenAction implements ActionListener {
 
     private static final OpenAction OPEN_ACTION = new OpenAction();
+    private File lastDir = new File(System.getProperty("user.home"));
 
     private OpenAction() {
     }
@@ -33,5 +41,30 @@ public class OpenAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(lastDir);
+        chooser.setFileFilter(new FileFilter() {
+
+            @Override
+            public boolean accept(File f) {
+                return f.isDirectory() || f.getName().endsWith(".nurbs");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Nurbs Files (*.nurbs)";
+
+            }
+
+        });
+        if (chooser.showOpenDialog(NurbsWindowSystem.get().getTopNurbsWindow()) == JFileChooser.APPROVE_OPTION) {
+
+            File f = chooser.getSelectedFile();
+            lastDir = f.getParentFile();
+
+            Path p = f.toPath();
+            NurbsWindowSystem.get().newWindow(p);
+        }
     }
 }
