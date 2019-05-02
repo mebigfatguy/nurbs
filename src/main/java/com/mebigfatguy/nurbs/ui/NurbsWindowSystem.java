@@ -97,6 +97,7 @@ public class NurbsWindowSystem {
     private ToolPalette createToolPalette() {
         ToolPalette tp = new ToolPalette();
         tp.setLocation(new Point(XOFFSET * 2, YOFFSET * 2));
+        tp.setSize(50, 50);
         return tp;
     }
 

@@ -38,32 +38,43 @@
 			<xsd:element name="grid" type="GridType" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="knots" type="KnotsType" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
-        <xsd:attribute name="uOrder" type="xsd:positiveInteger" use="required"/>
-        <xsd:attribute name="vOrder" type="xsd:positiveInteger" use="required"/>
+		<xsd:attribute name="uOrder" type="xsd:positiveInteger" use="required" />
+		<xsd:attribute name="vOrder" type="xsd:positiveInteger" use="required" />
 	</xsd:complexType>
 
 	<xsd:complexType name="GridType">
 		<xsd:simpleContent>
-			<xsd:restriction base="xsd:string">
-				<xsd:pattern value="\(\d+,\d+,\d+,\d+\))(,\(\d+,\d+,\d+,\d+\)))*" />
-			</xsd:restriction>
+			<xsd:extension base="GridContent">
+				<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
+				<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
+			</xsd:extension>
 		</xsd:simpleContent>
-		<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
-		<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
 	</xsd:complexType>
+
+	<xsd:simpleType name="GridContent">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\(\d+,\d+,\d+,\d+\)(,\(\d+,\d+,\d+,\d+\))*" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
 	<xsd:complexType name="KnotsType">
 		<xsd:simpleContent>
-			<xsd:restriction base="xsd:string">
-				<xsd:pattern value="\d(,\d)*" />
-			</xsd:restriction>
+			<xsd:extension base="KnotsContent">
+				<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
+				<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
+				<xsd:attribute name="uClosed" type="xsd:boolean" />
+				<xsd:attribute name="vClosed" type="xsd:boolean" />
+			</xsd:extension>
 		</xsd:simpleContent>
 
-		<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
-		<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
-		<xsd:attribute name="uClosed" type="xsd:boolean" />
-		<xsd:attribute name="vClosed" type="xsd:boolean" />
 	</xsd:complexType>
+
+	<xsd:simpleType name="KnotsContent">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\d(,\d)*" />
+		</xsd:restriction>
+
+	</xsd:simpleType>
 
 	<xsd:element name="nurbs" type="NurbsType" />
 
