@@ -20,9 +20,11 @@ package com.mebigfatguy.nurbs.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
@@ -40,31 +42,35 @@ public class OpenAction implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent event) {
 
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(lastDir);
-        chooser.setFileFilter(new FileFilter() {
+        try {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(lastDir);
+            chooser.setFileFilter(new FileFilter() {
 
-            @Override
-            public boolean accept(File f) {
-                return f.isDirectory() || f.getName().endsWith(".nurbs");
+                @Override
+                public boolean accept(File f) {
+                    return f.isDirectory() || f.getName().endsWith(".nurbs");
+                }
+
+                @Override
+                public String getDescription() {
+                    return "Nurbs Files (*.nurbs)";
+
+                }
+
+            });
+            if (chooser.showOpenDialog(NurbsWindowSystem.get().getTopNurbsWindow()) == JFileChooser.APPROVE_OPTION) {
+
+                File f = chooser.getSelectedFile();
+                lastDir = f.getParentFile();
+
+                Path p = f.toPath();
+                NurbsWindowSystem.get().newWindow(p);
             }
-
-            @Override
-            public String getDescription() {
-                return "Nurbs Files (*.nurbs)";
-
-            }
-
-        });
-        if (chooser.showOpenDialog(NurbsWindowSystem.get().getTopNurbsWindow()) == JFileChooser.APPROVE_OPTION) {
-
-            File f = chooser.getSelectedFile();
-            lastDir = f.getParentFile();
-
-            Path p = f.toPath();
-            NurbsWindowSystem.get().newWindow(p);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "", "", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -25,16 +25,20 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
 
+import com.mebigfatguy.nurbs.model.NurbsModel;
+
 public class NurbsPanel extends JPanel {
 
     private static final int DEFAULT_SIZE = 1000;
 
     private double zoomFactor;
     private Dimension pageSize;
+    private NurbsModel nurbsModel;
 
-    public NurbsPanel() {
+    public NurbsPanel(NurbsModel model) {
         zoomFactor = 1.0;
         pageSize = new Dimension(DEFAULT_SIZE, DEFAULT_SIZE);
+        nurbsModel = model;
     }
 
     @Override

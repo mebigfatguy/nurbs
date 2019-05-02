@@ -51,7 +51,7 @@ public class NurbsFileReader {
             spf.setNamespaceAware(true);
 
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(getClass().getClassLoader().getResource(schemaFile));
+            Schema schema = factory.newSchema(NurbsFileReader.class.getResource(schemaFile));
             spf.setSchema(schema);
 
             SAXParser parser = spf.newSAXParser();

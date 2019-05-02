@@ -24,6 +24,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import com.mebigfatguy.nurbs.io.NurbsFileReader;
+import com.mebigfatguy.nurbs.model.NurbsModel;
 import com.mebigfatguy.nurbs.ui.actions.NewAction;
 import com.mebigfatguy.nurbs.ui.actions.OpenAction;
 import com.mebigfatguy.nurbs.ui.actions.QuitAction;
@@ -68,13 +71,23 @@ public class NurbsWindow extends JFrame {
     private NurbsPanel nurbsPanel;
     private ZoomLevel zoomLevel;
 
-    public NurbsWindow(Path p) {
+    public NurbsWindow(Path p) throws IOException {
+
+        NurbsModel model;
+
+        if (p != null) {
+            NurbsFileReader r = new NurbsFileReader(p);
+            model = r.readModel();
+        } else {
+            model = new NurbsModel();
+        }
+
         setupMenus();
 
         addWindowListener(CLOSE_LISTENER);
         addComponentListener(RESIZE_LISTENER);
 
-        nurbsPanel = new NurbsPanel();
+        nurbsPanel = new NurbsPanel(model);
         setZoomLevel(ZoomLevel.ZOOM_TO_FIT);
         JScrollPane scroller = new JScrollPane(nurbsPanel);
         setContentPane(scroller);

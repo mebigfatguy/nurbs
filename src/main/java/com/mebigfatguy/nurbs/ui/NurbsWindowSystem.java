@@ -23,6 +23,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.IOException;
 import java.nio.file.Path;
 
 import javax.swing.JFrame;
@@ -42,21 +43,29 @@ public class NurbsWindowSystem {
     }
 
     private NurbsWindowSystem() {
-        toolPalette = createToolPalette();
-        NurbsWindow nw = createNurbsWindow(null);
-        nw.setVisible(true);
-        toolPalette.setVisible(true);
-    }
-
-    public void newWindow() {
-        NurbsWindow nw = createNurbsWindow(null);
-        nw.setVisible(true);
-        if (toolPalette.isVisible()) {
-            toolPalette.toFront();
+        try {
+            toolPalette = createToolPalette();
+            NurbsWindow nw = createNurbsWindow(null);
+            nw.setVisible(true);
+            toolPalette.setVisible(true);
+        } catch (IOException e) {
+            // wont happen
         }
     }
 
-    public void newWindow(Path file) {
+    public void newWindow() {
+        try {
+            NurbsWindow nw = createNurbsWindow(null);
+            nw.setVisible(true);
+            if (toolPalette.isVisible()) {
+                toolPalette.toFront();
+            }
+        } catch (IOException e) {
+            // wont happen
+        }
+    }
+
+    public void newWindow(Path file) throws IOException {
         NurbsWindow nw = createNurbsWindow(file);
         nw.setVisible(true);
         if (toolPalette.isVisible()) {
@@ -91,7 +100,7 @@ public class NurbsWindowSystem {
         return tp;
     }
 
-    private NurbsWindow createNurbsWindow(Path p) {
+    private NurbsWindow createNurbsWindow(Path p) throws IOException {
         NurbsWindow nw = new NurbsWindow(p);
         nw.setTitle(NurbsBundle.getParamString(NurbsBundle.NURBS_TITLE, nextWindow++));
 
