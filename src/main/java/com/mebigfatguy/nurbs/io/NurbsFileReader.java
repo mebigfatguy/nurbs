@@ -49,7 +49,6 @@ public class NurbsFileReader {
         try (Reader r = Files.newBufferedReader(nurbsPath)) {
             SAXParserFactory spf = SAXParserFactory.newInstance();
             spf.setNamespaceAware(true);
-            spf.setNamespaceAware(true);
 
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema = factory.newSchema(getClass().getClassLoader().getResource(schemaFile));

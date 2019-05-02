@@ -26,6 +26,12 @@ public enum NurbsBundle {
     // @formatter:off
 	NURBS_TITLE,
 	FILE_MENU,
+	NEW_ITEM,
+	OPEN_ITEM,
+	CLOSE_ITEM,
+	SAVE_ITEM,
+	SAVEAS_ITEM,
+	REVERT_ITEM,
 	QUIT_ITEM,
 	EDIT_MENU,
 	ZOOM_MENU,

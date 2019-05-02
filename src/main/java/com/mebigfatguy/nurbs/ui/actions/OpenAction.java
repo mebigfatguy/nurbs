@@ -15,11 +15,23 @@
  * See the License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.mebigfatguy.nurbs.model;
+package com.mebigfatguy.nurbs.ui.actions;
 
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class NurbsModel {
-    private NurbsEnvironment environment;
-    private List<NurbsMesh> surfaces;
+public class OpenAction implements ActionListener {
+
+    private static final OpenAction OPEN_ACTION = new OpenAction();
+
+    private OpenAction() {
+    }
+
+    public static OpenAction get() {
+        return OPEN_ACTION;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    }
 }

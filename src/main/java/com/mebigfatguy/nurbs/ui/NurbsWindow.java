@@ -35,6 +35,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import com.mebigfatguy.nurbs.ui.actions.NewAction;
+import com.mebigfatguy.nurbs.ui.actions.OpenAction;
 import com.mebigfatguy.nurbs.ui.actions.QuitAction;
 import com.mebigfatguy.nurbs.ui.actions.ZoomAction;
 
@@ -44,6 +46,12 @@ public class NurbsWindow extends JFrame {
     private static final ComponentListener RESIZE_LISTENER = new ResizeListener();
 
     private JMenu fileMenu;
+    private JMenuItem newItem;
+    private JMenuItem openItem;
+    private JMenuItem closeItem;
+    private JMenuItem saveItem;
+    private JMenuItem saveAsItem;
+    private JMenuItem revertItem;
     private JMenuItem quitItem;
 
     private JMenu editMenu;
@@ -87,6 +95,16 @@ public class NurbsWindow extends JFrame {
 
         JMenuBar bar = new JMenuBar();
         fileMenu = new JMenu(NurbsBundle.getString(NurbsBundle.FILE_MENU));
+        newItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.NEW_ITEM), KeyEvent.VK_N);
+        newItem.addActionListener(NewAction.get());
+        newItem.setMnemonic('N');
+        fileMenu.add(newItem);
+
+        openItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.OPEN_ITEM), KeyEvent.VK_O);
+        openItem.addActionListener(OpenAction.get());
+        openItem.setMnemonic('O');
+        fileMenu.add(openItem);
+
         quitItem = new JMenuItem(NurbsBundle.getString(NurbsBundle.QUIT_ITEM), KeyEvent.VK_Q);
         quitItem.addActionListener(QuitAction.get());
         quitItem.setMnemonic('Q');
