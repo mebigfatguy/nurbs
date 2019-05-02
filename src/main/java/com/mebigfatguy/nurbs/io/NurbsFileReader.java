@@ -17,19 +17,63 @@
  */
 package com.mebigfatguy.nurbs.io;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
 import java.nio.file.Path;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
 
 import com.mebigfatguy.nurbs.model.NurbsModel;
 
 public class NurbsFileReader {
 
+    private static final String schemaFile = "/com/mebigfatguy/nurbs/io/nurbs.xsd";
     private Path nurbsPath;
 
     public NurbsFileReader(Path path) {
         nurbsPath = path;
     }
 
-    public NurbsModel readModel() {
+    public NurbsModel readModel() throws IOException {
+        try (Reader r = Files.newBufferedReader(nurbsPath)) {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            spf.setNamespaceAware(true);
+            spf.setNamespaceAware(true);
 
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(getClass().getClassLoader().getResource(schemaFile));
+            spf.setSchema(schema);
+
+            SAXParser parser = spf.newSAXParser();
+            XMLReader reader = parser.getXMLReader();
+
+            NurbsModel model = new NurbsModel();
+            reader.setContentHandler(new NurbsHandler(model));
+
+            reader.parse(new InputSource(r));
+
+            return model;
+        } catch (SAXException | ParserConfigurationException e) {
+            throw new IOException("Failed parsing xml document: " + nurbsPath, e);
+        }
     }
+
+    class NurbsHandler extends DefaultHandler {
+
+        public NurbsHandler(NurbsModel model) {
+
+        }
+    }
+
 }
