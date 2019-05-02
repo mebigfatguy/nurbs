@@ -20,6 +20,8 @@ package com.mebigfatguy.nurbs.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
+
 public class NewAction implements ActionListener {
 
     private static final NewAction NEW_ACTION = new NewAction();
@@ -33,5 +35,6 @@ public class NewAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        NurbsWindowSystem.get().newWindow();
     }
 }

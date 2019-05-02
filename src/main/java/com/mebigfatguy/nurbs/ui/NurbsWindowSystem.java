@@ -17,6 +17,7 @@
  */
 package com.mebigfatguy.nurbs.ui;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -28,7 +29,9 @@ import javax.swing.JFrame;
 
 public class NurbsWindowSystem {
 
-    private static final int OFFSET = 50;
+    private static final int XOFFSET = 30;
+    private static final int YOFFSET = 50;
+
     private static final NurbsWindowSystem WINDOW_SYSTEM = new NurbsWindowSystem();
 
     private ToolPalette toolPalette;
@@ -48,11 +51,18 @@ public class NurbsWindowSystem {
     public void newWindow() {
         NurbsWindow nw = createNurbsWindow(null);
         nw.setVisible(true);
+        if (toolPalette.isVisible()) {
+            toolPalette.toFront();
+        }
     }
 
     public void newWindow(Path file) {
         NurbsWindow nw = createNurbsWindow(file);
         nw.setVisible(true);
+        if (toolPalette.isVisible()) {
+            toolPalette.toFront();
+        }
+
     }
 
     public boolean closeAll() {
@@ -67,7 +77,7 @@ public class NurbsWindowSystem {
 
     public NurbsWindow getTopNurbsWindow() {
         for (Frame f : JFrame.getFrames()) {
-            if (f.isVisible() && f instanceof NurbsWindow) {
+            if (f.isVisible() && f instanceof NurbsWindow && f.isFocused()) {
                 return (NurbsWindow) f;
             }
         }
@@ -77,7 +87,7 @@ public class NurbsWindowSystem {
 
     private ToolPalette createToolPalette() {
         ToolPalette tp = new ToolPalette();
-        tp.setLocation(new Point(OFFSET * 2, OFFSET * 2));
+        tp.setLocation(new Point(XOFFSET * 2, YOFFSET * 2));
         return tp;
     }
 
@@ -86,18 +96,28 @@ public class NurbsWindowSystem {
         nw.setTitle(NurbsBundle.getParamString(NurbsBundle.NURBS_TITLE, nextWindow++));
 
         NurbsWindow top = getTopNurbsWindow();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+        Rectangle bounds = defaultScreen.getDefaultConfiguration().getBounds();
+
         if (top == null) {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-            Rectangle bounds = defaultScreen.getDefaultConfiguration().getBounds();
-            nw.setLocation(bounds.x + OFFSET, bounds.y + OFFSET);
-            nw.setSize(bounds.width - 2 * OFFSET, bounds.height - 2 * OFFSET);
+            nw.setLocation(bounds.x + XOFFSET, bounds.y + YOFFSET);
+            nw.setSize(bounds.width - 2 * XOFFSET, bounds.height - 2 * YOFFSET);
         } else {
-            nw.setSize(top.getSize());
             Point pt = top.getLocation();
-            pt.x += OFFSET;
-            pt.y += OFFSET;
+            pt.x += XOFFSET;
+            pt.y += YOFFSET;
             nw.setLocation(pt);
+            Dimension size = top.getSize();
+            if (size.width + pt.x > bounds.width) {
+                size.width = bounds.width - pt.x;
+            }
+            if (size.height + pt.y > bounds.height) {
+                size.height = bounds.height - pt.y;
+            }
+
+            nw.setSize(size);
+
         }
         return nw;
     }
