@@ -71,7 +71,7 @@
 
 	<xsd:simpleType name="KnotsContent">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="\s*\d(,\d)*\s*" />
+			<xsd:pattern value="\s*[0-9]+(\.[0-9]*)*(,[0-9]+(\.[0-9]*)*)*\s*" />
 		</xsd:restriction>
 
 	</xsd:simpleType>
