@@ -53,27 +53,23 @@
 
 	<xsd:simpleType name="GridContent">
 		<xsd:restriction base="xsd:string">
-			<xsd:pattern value="\s*\(-?[0-9]+(\.[0-9]*)*(,-?[0-9]+(\.[0-9]*)*){3}\)(,\(-?[0-9]+(\.[0-9]*)*(,-?[0-9]+(\.[0-9]*)*){3}\))*\s*" />
+			<xsd:pattern value="\s*\(-?[0-9]+(\.[0-9]*)*(,\s*-?[0-9]+(\.[0-9]*)*){3}\)(,\s*\(-?[0-9]+(\.[0-9]*)*(,\s*-?[0-9]+(\.[0-9]*)*){3}\))*\s*" />
 		</xsd:restriction>
 	</xsd:simpleType>
 
 	<xsd:complexType name="KnotsType">
-		<xsd:simpleContent>
-			<xsd:extension base="KnotsContent">
-				<xsd:attribute name="uSize" type="xsd:positiveInteger" use="required" />
-				<xsd:attribute name="vSize" type="xsd:positiveInteger" use="required" />
-				<xsd:attribute name="uClosed" type="xsd:boolean" />
-				<xsd:attribute name="vClosed" type="xsd:boolean" />
-			</xsd:extension>
-		</xsd:simpleContent>
-
+		<xsd:sequence>
+			<xsd:element name="uvector" type="KnotVector" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="vvector" type="KnotVector" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="uClosed" type="xsd:boolean" />
+		<xsd:attribute name="vClosed" type="xsd:boolean" />
 	</xsd:complexType>
 
-	<xsd:simpleType name="KnotsContent">
+	<xsd:simpleType name="KnotVector">
 		<xsd:restriction base="xsd:string">
 			<xsd:pattern value="\s*[0-9]+(\.[0-9]*)*(,[0-9]+(\.[0-9]*)*)*\s*" />
 		</xsd:restriction>
-
 	</xsd:simpleType>
 
 	<xsd:element name="nurbs" type="NurbsType" />

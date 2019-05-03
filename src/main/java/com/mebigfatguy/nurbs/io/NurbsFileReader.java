@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.XMLConstants;
@@ -77,6 +78,7 @@ public class NurbsFileReader {
 
         public NurbsHandler(NurbsModel model) {
             nurbsModel = model;
+            visitedNodes = new ArrayList<>();
         }
 
         @Override
