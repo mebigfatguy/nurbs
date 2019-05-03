@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,6 +30,7 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -70,9 +72,23 @@ public class NurbsFileReader {
 
     class NurbsHandler extends DefaultHandler {
 
-        public NurbsHandler(NurbsModel model) {
+        private NurbsModel nurbsModel;
+        private List<String> visitedNodes;
 
+        public NurbsHandler(NurbsModel model) {
+            nurbsModel = model;
         }
+
+        @Override
+        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+            visitedNodes.add(localName);
+        }
+
+        @Override
+        public void endElement(String uri, String localName, String qName) throws SAXException {
+            visitedNodes.remove(visitedNodes.size() - 1);
+        }
+
     }
 
 }

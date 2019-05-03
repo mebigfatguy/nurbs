@@ -17,9 +17,30 @@
  */
 package com.mebigfatguy.nurbs.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NurbsModel {
-    private NurbsEnvironment environment;
-    private List<NurbsMesh> surfaces;
+
+    private double[] lookAt;
+    private double[] lookFrom;
+
+    private List<NurbsMesh> objects = new ArrayList<>();
+
+    public double[] getLookAt() {
+        return lookAt;
+    }
+
+    public void setLookAt(double[] lookAt) {
+        this.lookAt = lookAt;
+    }
+
+    public double[] getLookFrom() {
+        return lookFrom;
+    }
+
+    public void setLookFrom(double[] lookFrom) {
+        this.lookFrom = lookFrom;
+    }
+
 }
