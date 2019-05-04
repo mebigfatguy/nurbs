@@ -43,4 +43,8 @@ public class NurbsModel {
         this.lookFrom = lookFrom;
     }
 
+    public void addObject(NurbsMesh mesh) {
+        objects.add(mesh);
+    }
+
 }

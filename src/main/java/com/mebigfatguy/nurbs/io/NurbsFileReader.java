@@ -39,6 +39,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.mebigfatguy.nurbs.model.NurbsMesh;
 import com.mebigfatguy.nurbs.model.NurbsModel;
 
 public class NurbsFileReader {
@@ -46,6 +47,8 @@ public class NurbsFileReader {
     private static final String schemaFile = "/com/mebigfatguy/nurbs/io/nurbs.xsd";
 
     private static final Pattern point3DPattern = Pattern.compile("\\((-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?)\\)");
+    private static final Pattern point4DPattern = Pattern
+            .compile("\\((-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?)\\)");
     private Path nurbsPath;
 
     public NurbsFileReader(Path path) {
@@ -80,6 +83,9 @@ public class NurbsFileReader {
         private NurbsModel nurbsModel;
         private List<String> visitedNodes;
         private StringBuilder textContent;
+        private int uOrder, vOrder;
+        private int uSize, vSize;
+        double[][][] activeGrid;
 
         public NurbsHandler(NurbsModel model) {
             nurbsModel = model;
@@ -91,6 +97,17 @@ public class NurbsFileReader {
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             visitedNodes.add(localName);
             textContent.setLength(0);
+
+            switch (localName) {
+                case "mesh":
+                    uOrder = Integer.parseInt(attributes.getValue("uOrder"));
+                    vOrder = Integer.parseInt(attributes.getValue("vOrder"));
+                    break;
+
+                case "grid":
+                    uSize = Integer.parseInt(attributes.getValue("uSize"));
+                    vSize = Integer.parseInt(attributes.getValue("vSize"));
+            }
         }
 
         @Override
@@ -99,8 +116,17 @@ public class NurbsFileReader {
                 case "lookat":
                     nurbsModel.setLookAt(parse3DPoint(textContent.toString()));
                     break;
+
                 case "lookfrom":
                     nurbsModel.setLookFrom(parse3DPoint(textContent.toString()));
+                    break;
+
+                case "mesh":
+                    nurbsModel.addObject(new NurbsMesh(uOrder, vOrder, activeGrid));
+                    break;
+
+                case "grid":
+                    activeGrid = parseGrid(textContent.toString());
                     break;
             }
             visitedNodes.remove(visitedNodes.size() - 1);
@@ -122,6 +148,24 @@ public class NurbsFileReader {
                 pt3d[i] = Double.parseDouble(m.group(i + 1));
             }
             return pt3d;
+        }
+
+        private double[][][] parseGrid(String grid) {
+            double[][][] gridPoints = new double[uSize][vSize][4];
+            Matcher m = point4DPattern.matcher(grid);
+
+            for (int u = 0; u < uSize; u++) {
+                for (int v = 0; v < vSize; v++) {
+                    if (m.find()) {
+                        gridPoints[u][v][0] = Double.parseDouble(m.group(1));
+                        gridPoints[u][v][1] = Double.parseDouble(m.group(2));
+                        gridPoints[u][v][2] = Double.parseDouble(m.group(3));
+                        gridPoints[u][v][3] = Double.parseDouble(m.group(4));
+                    }
+                }
+            }
+            return gridPoints;
+
         }
     }
 

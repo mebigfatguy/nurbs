@@ -19,4 +19,14 @@ package com.mebigfatguy.nurbs.model;
 
 public class NurbsMesh {
 
+    private int uOrder;
+    private int vOrder;
+
+    private double[][][] gridPoints;
+
+    public NurbsMesh(int u, int v, double[][][] grid) {
+        uOrder = u;
+        vOrder = v;
+        gridPoints = grid;
+    }
 }
