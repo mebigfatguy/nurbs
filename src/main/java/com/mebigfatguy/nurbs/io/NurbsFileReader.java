@@ -45,7 +45,7 @@ public class NurbsFileReader {
 
     private static final String schemaFile = "/com/mebigfatguy/nurbs/io/nurbs.xsd";
 
-    private static final Pattern point3DPattern = Pattern.compile("\\((-?[0-9]+(\\.[0-9]*)?),(-?[0-9]+(\\.[0-9]*)?),(-?[0-9]+(\\.[0-9]*)?)\\)");
+    private static final Pattern point3DPattern = Pattern.compile("\\((-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?)\\)");
     private Path nurbsPath;
 
     public NurbsFileReader(Path path) {
