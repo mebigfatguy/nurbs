@@ -23,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -42,6 +44,8 @@ import com.mebigfatguy.nurbs.model.NurbsModel;
 public class NurbsFileReader {
 
     private static final String schemaFile = "/com/mebigfatguy/nurbs/io/nurbs.xsd";
+
+    private static final Pattern point3DPattern = Pattern.compile("\\((-?[0-9]+(\\.[0-9]*)?),(-?[0-9]+(\\.[0-9]*)?),(-?[0-9]+(\\.[0-9]*)?)\\)");
     private Path nurbsPath;
 
     public NurbsFileReader(Path path) {
@@ -75,22 +79,50 @@ public class NurbsFileReader {
 
         private NurbsModel nurbsModel;
         private List<String> visitedNodes;
+        private StringBuilder textContent;
 
         public NurbsHandler(NurbsModel model) {
             nurbsModel = model;
             visitedNodes = new ArrayList<>();
+            textContent = new StringBuilder();
         }
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             visitedNodes.add(localName);
+            textContent.setLength(0);
         }
 
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
+            switch (localName) {
+                case "lookat":
+                    nurbsModel.setLookAt(parse3DPoint(textContent.toString()));
+                    break;
+                case "lookfrom":
+                    nurbsModel.setLookFrom(parse3DPoint(textContent.toString()));
+                    break;
+            }
             visitedNodes.remove(visitedNodes.size() - 1);
         }
 
+        @Override
+        public void characters(char[] ch, int start, int length) throws SAXException {
+            textContent.append(ch, start, length);
+        }
+
+        private double[] parse3DPoint(String pt) {
+            Matcher m = point3DPattern.matcher(pt);
+            if (!m.matches()) {
+                throw new IllegalArgumentException(pt);
+            }
+
+            double[] pt3d = new double[3];
+            for (int i = 0; i < 3; i++) {
+                pt3d[i] = Double.parseDouble(m.group(i + 1));
+            }
+            return pt3d;
+        }
     }
 
 }
