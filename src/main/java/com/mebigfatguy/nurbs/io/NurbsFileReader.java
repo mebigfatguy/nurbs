@@ -39,6 +39,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.mebigfatguy.nurbs.model.KnotVector;
 import com.mebigfatguy.nurbs.model.NurbsMesh;
 import com.mebigfatguy.nurbs.model.NurbsModel;
 
@@ -86,6 +87,8 @@ public class NurbsFileReader {
         private int uOrder, vOrder;
         private int uSize, vSize;
         double[][][] activeGrid;
+        List<KnotVector> activeUKnots;
+        List<KnotVector> activeVKnots;
 
         public NurbsHandler(NurbsModel model) {
             nurbsModel = model;
@@ -107,6 +110,12 @@ public class NurbsFileReader {
                 case "grid":
                     uSize = Integer.parseInt(attributes.getValue("uSize"));
                     vSize = Integer.parseInt(attributes.getValue("vSize"));
+                    break;
+
+                case "knots":
+                    activeUKnots = new ArrayList<>();
+                    activeVKnots = new ArrayList<>();
+                    break;
             }
         }
 
@@ -122,11 +131,23 @@ public class NurbsFileReader {
                     break;
 
                 case "mesh":
-                    nurbsModel.addObject(new NurbsMesh(uOrder, vOrder, activeGrid));
+                    nurbsModel.addObject(new NurbsMesh(uOrder, vOrder, activeGrid, activeUKnots, activeVKnots));
+                    activeGrid = null;
+                    activeUKnots = null;
+                    activeVKnots = null;
                     break;
 
                 case "grid":
                     activeGrid = parseGrid(textContent.toString());
+                    break;
+
+                case "uvector":
+                    activeUKnots.add(parseKnotVector(uOrder, textContent.toString()));
+                    break;
+
+                case "vvector":
+                    activeVKnots.add(parseKnotVector(vOrder, textContent.toString()));
+
                     break;
             }
             visitedNodes.remove(visitedNodes.size() - 1);
@@ -165,7 +186,18 @@ public class NurbsFileReader {
                 }
             }
             return gridPoints;
+        }
 
+        private KnotVector parseKnotVector(int order, String nv) {
+            String[] values = nv.split("\\s*,\\s*");
+            double[] knots = new double[values.length];
+
+            int i = 0;
+            for (String v : values) {
+                knots[i++] = Double.parseDouble(v);
+            }
+
+            return new KnotVector(order, knots);
         }
     }
 

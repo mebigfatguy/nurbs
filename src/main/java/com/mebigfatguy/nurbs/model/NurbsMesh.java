@@ -17,16 +17,22 @@
  */
 package com.mebigfatguy.nurbs.model;
 
+import java.util.List;
+
 public class NurbsMesh {
 
     private int uOrder;
     private int vOrder;
 
     private double[][][] gridPoints;
+    private List<KnotVector> uKnots;
+    private List<KnotVector> vKnots;
 
-    public NurbsMesh(int u, int v, double[][][] grid) {
+    public NurbsMesh(int u, int v, double[][][] grid, List<KnotVector> uk, List<KnotVector> vk) {
         uOrder = u;
         vOrder = v;
         gridPoints = grid;
+        uKnots = uk;
+        vKnots = vk;
     }
 }
