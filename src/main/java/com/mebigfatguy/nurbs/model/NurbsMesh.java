@@ -18,17 +18,18 @@
 package com.mebigfatguy.nurbs.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class NurbsMesh {
 
     private int uOrder;
     private int vOrder;
 
-    private double[][][] gridPoints;
+    private Map<UVIndex, double[]> gridPoints;
     private List<KnotVector> uKnots;
     private List<KnotVector> vKnots;
 
-    public NurbsMesh(int u, int v, double[][][] grid, List<KnotVector> uk, List<KnotVector> vk) {
+    public NurbsMesh(int u, int v, Map<UVIndex, double[]> grid, List<KnotVector> uk, List<KnotVector> vk) {
         uOrder = u;
         vOrder = v;
         gridPoints = grid;

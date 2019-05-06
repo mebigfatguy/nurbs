@@ -22,7 +22,9 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +44,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.mebigfatguy.nurbs.model.KnotVector;
 import com.mebigfatguy.nurbs.model.NurbsMesh;
 import com.mebigfatguy.nurbs.model.NurbsModel;
+import com.mebigfatguy.nurbs.model.UVIndex;
 
 public class NurbsFileReader {
 
@@ -86,7 +89,7 @@ public class NurbsFileReader {
         private StringBuilder textContent;
         private int uOrder, vOrder;
         private int uSize, vSize;
-        double[][][] activeGrid;
+        Map<UVIndex, double[]> activeGrid;
         List<KnotVector> activeUKnots;
         List<KnotVector> activeVKnots;
 
@@ -171,17 +174,19 @@ public class NurbsFileReader {
             return pt3d;
         }
 
-        private double[][][] parseGrid(String grid) {
-            double[][][] gridPoints = new double[uSize][vSize][4];
+        private Map<UVIndex, double[]> parseGrid(String grid) {
+            Map<UVIndex, double[]> gridPoints = new HashMap<>(uSize * vSize);
             Matcher m = point4DPattern.matcher(grid);
 
             for (int u = 0; u < uSize; u++) {
                 for (int v = 0; v < vSize; v++) {
                     if (m.find()) {
-                        gridPoints[u][v][0] = Double.parseDouble(m.group(1));
-                        gridPoints[u][v][1] = Double.parseDouble(m.group(2));
-                        gridPoints[u][v][2] = Double.parseDouble(m.group(3));
-                        gridPoints[u][v][3] = Double.parseDouble(m.group(4));
+                        double[] pt = new double[4];
+                        pt[0] = Double.parseDouble(m.group(1));
+                        pt[1] = Double.parseDouble(m.group(2));
+                        pt[2] = Double.parseDouble(m.group(3));
+                        pt[3] = Double.parseDouble(m.group(4));
+                        gridPoints.put(new UVIndex(u, v), pt);
                     }
                 }
             }
