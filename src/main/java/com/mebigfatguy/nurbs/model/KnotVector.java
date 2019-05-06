@@ -28,4 +28,17 @@ public class KnotVector {
         this.knots = knots;
     }
 
+    public double basis(int knot, double t) {
+        return basis(knot, order, t);
+    }
+
+    private double basis(int knot, int order, double t) {
+        if (order == 1) {
+            return t >= knots[knot] && t < knots[knot + 1] ? 1 : 0;
+        }
+
+        return (t - knots[knot]) * basis(knot, order - 1, t) / (knots[knot + order - 1] - knots[knot])
+                + (knots[knot + order] - t) * basis(knot + 1, order - 1, t) / (knots[knot + order] - knots[knot + 1]);
+    }
+
 }
