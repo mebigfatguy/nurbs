@@ -36,8 +36,11 @@ public class KnotVectorTest {
         Assert.assertEquals(0.0, kv.basis(1, 1), epsilon);
         Assert.assertEquals(0.5, kv.basis(1, 2), epsilon);
 
-        Assert.assertEquals(0.0, kv.basis(2, 1), epsilon);
-//        Assert.assertEquals(0.5, kv.basis(2, 2), epsilon);
+        Assert.assertEquals(0.0, kv.basis(2, 2), epsilon);
+        Assert.assertEquals(0.5, kv.basis(2, 3), epsilon);
+
+        Assert.assertEquals(0.0, kv.basis(3, 3), epsilon);
+        Assert.assertEquals(0.5, kv.basis(3, 4), epsilon);
     }
 
 }

@@ -37,18 +37,19 @@ public class KnotVector {
             return t >= knots[knot] && t < knots[knot + 1] ? 1 : 0;
         }
 
-        double basis = 0.0;
+        double lhBasis = 0.0;
+        double rhBasis = 0.0;
         double delta = t - knots[knot];
         if (delta != 0) {
-            basis = delta * basis(knot, order - 1, t) / (knots[knot + order - 1] - knots[knot]);
+            lhBasis = delta * basis(knot, order - 1, t) / (knots[knot + order - 1] - knots[knot]);
         }
 
         delta = knots[knot + order] - t;
         if (delta != 0) {
-            basis += delta * basis(knot + 1, order - 1, t) / (knots[knot + order] - knots[knot + 1]);
+            rhBasis = delta * basis(knot + 1, order - 1, t) / (knots[knot + order] - knots[knot + 1]);
         }
 
-        return basis;
+        return lhBasis + rhBasis;
     }
 
 }
