@@ -31,16 +31,33 @@ public class KnotVectorTest {
 
         Assert.assertEquals(0.0, kv.basis(0, 0), epsilon);
         Assert.assertEquals(0.125, kv.basis(0, 0.5), epsilon);
-        Assert.assertEquals(0.5, kv.basis(0, 1), epsilon);
+        Assert.assertEquals(0.5, kv.basis(0, 0.999999999999), epsilon);
 
         Assert.assertEquals(0.0, kv.basis(1, 1), epsilon);
-        Assert.assertEquals(0.5, kv.basis(1, 2), epsilon);
+        Assert.assertEquals(0.5, kv.basis(1, 1.999999999999), epsilon);
 
         Assert.assertEquals(0.0, kv.basis(2, 2), epsilon);
-        Assert.assertEquals(0.5, kv.basis(2, 3), epsilon);
+        Assert.assertEquals(0.5, kv.basis(2, 2.999999999999), epsilon);
 
         Assert.assertEquals(0.0, kv.basis(3, 3), epsilon);
-        Assert.assertEquals(0.5, kv.basis(3, 4), epsilon);
+        Assert.assertEquals(0.5, kv.basis(3, 3.999999999999), epsilon);
+    }
+
+    @Test
+    public void testNonUniformBasis() {
+        KnotVector kv = new KnotVector(3, new double[] { 0, 0, 0, 1, 1, 3, 3, 3 });
+
+        Assert.assertEquals(0.0, kv.basis(2, 0), epsilon);
+        Assert.assertEquals(0.25, kv.basis(2, 0.5), epsilon);
+
+        Assert.assertEquals(0.0, kv.basis(3, 1), epsilon);
+
+        Assert.assertEquals(0.0, kv.basis(4, 1), epsilon);
+        Assert.assertEquals(0.0625, kv.basis(4, 1.5), epsilon);
+        Assert.assertEquals(0.25, kv.basis(4, 2.0), epsilon);
+        Assert.assertEquals(0.5625, kv.basis(4, 2.5), epsilon);
+        Assert.assertEquals(1.0, kv.basis(4, 2.999999999999), epsilon);
+
     }
 
 }
