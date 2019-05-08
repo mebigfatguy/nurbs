@@ -1,0 +1,4 @@
+<Project projectName="nurbs">
+  <Jar>./target/classes</Jar>
+  <SrcDir>./src/main/java</SrcDir>
+</Project>
