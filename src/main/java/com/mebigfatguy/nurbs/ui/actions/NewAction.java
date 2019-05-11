@@ -20,6 +20,9 @@ package com.mebigfatguy.nurbs.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
 
 public class NewAction implements ActionListener {
@@ -37,4 +40,10 @@ public class NewAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         NurbsWindowSystem.get().newWindow();
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
 }

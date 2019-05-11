@@ -20,6 +20,9 @@ package com.mebigfatguy.nurbs.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.mebigfatguy.nurbs.ui.NurbsWindow;
 import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
 import com.mebigfatguy.nurbs.ui.ZoomLevel;
@@ -42,6 +45,11 @@ public class ZoomAction implements ActionListener {
         if (nw != null) {
             nw.setZoomLevel(ZoomLevel.fromActionString(e.getActionCommand()));
         }
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

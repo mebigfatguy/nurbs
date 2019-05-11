@@ -27,6 +27,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
 
 public class OpenAction implements ActionListener {
@@ -73,4 +76,10 @@ public class OpenAction implements ActionListener {
             JOptionPane.showMessageDialog(null, "", "", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
 }

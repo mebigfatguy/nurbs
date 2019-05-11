@@ -17,6 +17,9 @@
  */
 package com.mebigfatguy.nurbs.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class UVIndex {
 
     private int uIndex;
@@ -53,6 +56,7 @@ public class UVIndex {
 
     @Override
     public String toString() {
-        return "(" + uIndex + "," + vIndex + ")";
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

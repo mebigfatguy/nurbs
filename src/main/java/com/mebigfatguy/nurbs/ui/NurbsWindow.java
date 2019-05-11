@@ -37,6 +37,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.mebigfatguy.nurbs.io.NurbsFileReader;
 import com.mebigfatguy.nurbs.model.NurbsModel;
 import com.mebigfatguy.nurbs.ui.actions.NewAction;
@@ -171,6 +174,11 @@ public class NurbsWindow extends JFrame {
         bar.add(zoomMenu);
 
         setJMenuBar(bar);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     private static class CloseListener extends WindowAdapter {

@@ -20,24 +20,32 @@ package com.mebigfatguy.nurbs.ui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.mebigfatguy.nurbs.ui.NurbsWindowSystem;
 
 public class QuitAction implements ActionListener {
 
-	private static final QuitAction QUIT_ACTION = new QuitAction();
+    private static final QuitAction QUIT_ACTION = new QuitAction();
 
-	private QuitAction() {
-	}
+    private QuitAction() {
+    }
 
-	public static QuitAction get() {
-		return QUIT_ACTION;
-	}
+    public static QuitAction get() {
+        return QUIT_ACTION;
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (NurbsWindowSystem.get().closeAll()) {
-			System.exit(0);
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (NurbsWindowSystem.get().closeAll()) {
+            System.exit(0);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

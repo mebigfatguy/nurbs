@@ -20,6 +20,9 @@ package com.mebigfatguy.nurbs.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class NurbsModel {
 
     private double[] lookAt;
@@ -45,6 +48,11 @@ public class NurbsModel {
 
     public void addObject(NurbsMesh mesh) {
         objects.add(mesh);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

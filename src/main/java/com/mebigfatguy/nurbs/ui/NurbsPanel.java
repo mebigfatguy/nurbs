@@ -25,6 +25,9 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.mebigfatguy.nurbs.model.NurbsModel;
 
 public class NurbsPanel extends JPanel {
@@ -92,4 +95,10 @@ public class NurbsPanel extends JPanel {
         revalidate();
         repaint();
     }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
 }

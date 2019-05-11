@@ -28,6 +28,9 @@ import java.nio.file.Path;
 
 import javax.swing.JFrame;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class NurbsWindowSystem {
 
     private static final int XOFFSET = 30;
@@ -130,6 +133,11 @@ public class NurbsWindowSystem {
 
         }
         return nw;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }
