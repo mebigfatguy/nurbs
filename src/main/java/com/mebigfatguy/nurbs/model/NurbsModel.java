@@ -27,6 +27,7 @@ public class NurbsModel {
 
     private double[] lookAt;
     private double[] lookFrom;
+    private double[][] transform;
 
     private List<NurbsMesh> objects = new ArrayList<>();
 
@@ -36,6 +37,7 @@ public class NurbsModel {
 
     public void setLookAt(double[] lookAt) {
         this.lookAt = lookAt;
+        recreateTransform();
     }
 
     public double[] getLookFrom() {
@@ -44,10 +46,18 @@ public class NurbsModel {
 
     public void setLookFrom(double[] lookFrom) {
         this.lookFrom = lookFrom;
+        recreateTransform();
     }
 
     public void addObject(NurbsMesh mesh) {
         objects.add(mesh);
+    }
+
+    private void recreateTransform() {
+    }
+
+    public double[][] getTransform() {
+        return transform;
     }
 
     @Override
