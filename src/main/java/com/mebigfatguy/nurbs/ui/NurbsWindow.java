@@ -71,6 +71,12 @@ public class NurbsWindow extends JFrame {
     private JMenu zoomMenu;
     private Map<ZoomLevel, JMenuItem> zoomItems = new HashMap<>();
 
+    private JMenu renderMenu;
+    private JMenuItem wireFrameItem;
+    private JMenuItem flatItem;
+    private JMenuItem gouraudItem;
+    private JMenuItem phongItem;
+
     private NurbsPanel nurbsPanel;
     private ZoomLevel zoomLevel;
 
