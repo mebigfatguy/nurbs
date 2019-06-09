@@ -26,7 +26,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -42,6 +42,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.mebigfatguy.nurbs.io.NurbsFileReader;
 import com.mebigfatguy.nurbs.model.NurbsModel;
+import com.mebigfatguy.nurbs.render.Shading;
 import com.mebigfatguy.nurbs.ui.actions.NewAction;
 import com.mebigfatguy.nurbs.ui.actions.OpenAction;
 import com.mebigfatguy.nurbs.ui.actions.QuitAction;
@@ -69,16 +70,14 @@ public class NurbsWindow extends JFrame {
     private JMenuItem clearItem;
 
     private JMenu zoomMenu;
-    private Map<ZoomLevel, JMenuItem> zoomItems = new HashMap<>();
+    private Map<ZoomLevel, JMenuItem> zoomItems = new EnumMap<>(ZoomLevel.class);
 
     private JMenu renderMenu;
-    private JMenuItem wireFrameItem;
-    private JMenuItem flatItem;
-    private JMenuItem gouraudItem;
-    private JMenuItem phongItem;
+    private Map<Shading, JMenuItem> renderItems = new EnumMap<>(Shading.class);
 
     private NurbsPanel nurbsPanel;
     private ZoomLevel zoomLevel;
+    private Shading shadingType;
 
     public NurbsWindow(Path p) throws IOException {
 
@@ -98,6 +97,7 @@ public class NurbsWindow extends JFrame {
 
         nurbsPanel = new NurbsPanel(model);
         setZoomLevel(ZoomLevel.ZOOM_TO_FIT);
+        setShading(Shading.FLAT);
         JScrollPane scroller = new JScrollPane(nurbsPanel);
         setContentPane(scroller);
     }
@@ -110,6 +110,16 @@ public class NurbsWindow extends JFrame {
             mi.setSelected(mi == selected);
         }
         nurbsPanel.setZoomLevel(level);
+    }
+
+    public void setShading(Shading type) {
+        shadingType = type;
+        JMenuItem selected = renderItems.get(type);
+
+        for (JMenuItem mi : zoomItems.values()) {
+            mi.setSelected(mi == selected);
+        }
+        nurbsPanel.setShading(type);
     }
 
     private void setupMenus() {
@@ -178,6 +188,30 @@ public class NurbsWindow extends JFrame {
         zoomItems.put(ZoomLevel.ZOOM_400, item);
 
         bar.add(zoomMenu);
+
+        renderMenu = new JMenu(NurbsBundle.getString(NurbsBundle.RENDER_MENU));
+
+        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.WIREFRAME_ITEM));
+        // item.addActionListener(WireFrameAction.get());
+        renderMenu.add(item);
+        renderItems.put(Shading.WIRE_FRAME, item);
+
+        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.FLAT_ITEM));
+        // item.addActionListener(FlatAction.get());
+        renderMenu.add(item);
+        renderItems.put(Shading.FLAT, item);
+
+        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.GOURAUD_ITEM));
+        // item.addActionListener(GouraudAction.get());
+        renderMenu.add(item);
+        renderItems.put(Shading.GOURAUD, item);
+
+        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.PHONG_ITEM));
+        // item.addActionListener(PhongAction.get());
+        renderMenu.add(item);
+        renderItems.put(Shading.PHONG, item);
+
+        bar.add(renderMenu);
 
         setJMenuBar(bar);
     }

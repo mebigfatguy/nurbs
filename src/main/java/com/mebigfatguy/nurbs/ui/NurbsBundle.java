@@ -40,7 +40,12 @@ public enum NurbsBundle {
 	ZOOM_50_ITEM,
 	ZOOM_100_ITEM,
 	ZOOM_200_ITEM,
-	ZOOM_400_ITEM;
+	ZOOM_400_ITEM,
+	RENDER_MENU,
+	WIREFRAME_ITEM,
+	FLAT_ITEM,
+	GOURAUD_ITEM,
+	PHONG_ITEM;
 
 	// @formatter:on
 
