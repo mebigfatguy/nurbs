@@ -29,7 +29,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.mebigfatguy.nurbs.model.NurbsModel;
-import com.mebigfatguy.nurbs.render.Shading;
 
 public class NurbsPanel extends JPanel {
 
@@ -93,17 +92,6 @@ public class NurbsPanel extends JPanel {
             viewSize.height = DEFAULT_SIZE;
         }
         zoomFactor = level.getZoomLevel(pageSize, viewSize);
-        revalidate();
-        repaint();
-    }
-
-    public void setShading(Shading type) {
-        invalidate();
-        JViewport viewPort = (JViewport) getParent();
-        if (viewPort == null) {
-            return;
-        }
-
         revalidate();
         repaint();
     }

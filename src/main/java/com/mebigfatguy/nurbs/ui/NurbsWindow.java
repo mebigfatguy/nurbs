@@ -119,7 +119,6 @@ public class NurbsWindow extends JFrame {
         for (JMenuItem mi : zoomItems.values()) {
             mi.setSelected(mi == selected);
         }
-        nurbsPanel.setShading(type);
     }
 
     private void setupMenus() {
