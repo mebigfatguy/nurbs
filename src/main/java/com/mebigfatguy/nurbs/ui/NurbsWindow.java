@@ -190,22 +190,22 @@ public class NurbsWindow extends JFrame {
 
         renderMenu = new JMenu(NurbsBundle.getString(NurbsBundle.RENDER_MENU));
 
-        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.WIREFRAME_ITEM));
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.WIREFRAME_ITEM));
         // item.addActionListener(WireFrameAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.WIRE_FRAME, item);
 
-        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.FLAT_ITEM));
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.FLAT_ITEM));
         // item.addActionListener(FlatAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.FLAT, item);
 
-        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.GOURAUD_ITEM));
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.GOURAUD_ITEM));
         // item.addActionListener(GouraudAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.GOURAUD, item);
 
-        item = new JMenuItem(NurbsBundle.getString(NurbsBundle.PHONG_ITEM));
+        item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.PHONG_ITEM));
         // item.addActionListener(PhongAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.PHONG, item);
