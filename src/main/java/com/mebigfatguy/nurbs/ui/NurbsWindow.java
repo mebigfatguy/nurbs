@@ -43,9 +43,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.mebigfatguy.nurbs.io.NurbsFileReader;
 import com.mebigfatguy.nurbs.model.NurbsModel;
 import com.mebigfatguy.nurbs.render.Shading;
+import com.mebigfatguy.nurbs.ui.actions.FlatAction;
+import com.mebigfatguy.nurbs.ui.actions.GouraudAction;
 import com.mebigfatguy.nurbs.ui.actions.NewAction;
 import com.mebigfatguy.nurbs.ui.actions.OpenAction;
+import com.mebigfatguy.nurbs.ui.actions.PhongAction;
 import com.mebigfatguy.nurbs.ui.actions.QuitAction;
+import com.mebigfatguy.nurbs.ui.actions.WireFrameAction;
 import com.mebigfatguy.nurbs.ui.actions.ZoomAction;
 
 public class NurbsWindow extends JFrame {
@@ -191,22 +195,26 @@ public class NurbsWindow extends JFrame {
         renderMenu = new JMenu(NurbsBundle.getString(NurbsBundle.RENDER_MENU));
 
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.WIREFRAME_ITEM));
-        // item.addActionListener(WireFrameAction.get());
+        item.setActionCommand(NurbsBundle.WIREFRAME_ITEM.name());
+        item.addActionListener(WireFrameAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.WIRE_FRAME, item);
 
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.FLAT_ITEM));
-        // item.addActionListener(FlatAction.get());
+        item.setActionCommand(NurbsBundle.FLAT_ITEM.name());
+        item.addActionListener(FlatAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.FLAT, item);
 
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.GOURAUD_ITEM));
-        // item.addActionListener(GouraudAction.get());
+        item.setActionCommand(NurbsBundle.GOURAUD_ITEM.name());
+        item.addActionListener(GouraudAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.GOURAUD, item);
 
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.PHONG_ITEM));
-        // item.addActionListener(PhongAction.get());
+        item.setActionCommand(NurbsBundle.PHONG_ITEM.name());
+        item.addActionListener(PhongAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.PHONG, item);
 
