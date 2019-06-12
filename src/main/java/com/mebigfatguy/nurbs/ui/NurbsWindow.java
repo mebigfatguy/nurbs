@@ -120,7 +120,7 @@ public class NurbsWindow extends JFrame {
         shadingType = type;
         JMenuItem selected = renderItems.get(type);
 
-        for (JMenuItem mi : zoomItems.values()) {
+        for (JMenuItem mi : renderItems.values()) {
             mi.setSelected(mi == selected);
         }
     }
@@ -198,7 +198,7 @@ public class NurbsWindow extends JFrame {
         item.setActionCommand(NurbsBundle.WIREFRAME_ITEM.name());
         item.addActionListener(WireFrameAction.get());
         renderMenu.add(item);
-        renderItems.put(Shading.WIRE_FRAME, item);
+        renderItems.put(Shading.WIREFRAME, item);
 
         item = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.FLAT_ITEM));
         item.setActionCommand(NurbsBundle.FLAT_ITEM.name());
