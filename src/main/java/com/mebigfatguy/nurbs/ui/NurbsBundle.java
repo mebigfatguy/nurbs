@@ -45,7 +45,8 @@ public enum NurbsBundle {
 	WIREFRAME_ITEM,
 	FLAT_ITEM,
 	GOURAUD_ITEM,
-	PHONG_ITEM;
+	PHONG_ITEM,
+	AXIS_ITEM;
 
 	// @formatter:on
 

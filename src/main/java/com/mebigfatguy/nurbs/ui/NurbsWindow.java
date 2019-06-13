@@ -78,6 +78,7 @@ public class NurbsWindow extends JFrame {
 
     private JMenu renderMenu;
     private Map<Shading, JMenuItem> renderItems = new EnumMap<>(Shading.class);
+    private JCheckBoxMenuItem axisItem;
 
     private NurbsPanel nurbsPanel;
     private ZoomLevel zoomLevel;
@@ -217,6 +218,12 @@ public class NurbsWindow extends JFrame {
         item.addActionListener(PhongAction.get());
         renderMenu.add(item);
         renderItems.put(Shading.PHONG, item);
+
+        renderMenu.addSeparator();
+
+        axisItem = new JCheckBoxMenuItem(NurbsBundle.getString(NurbsBundle.AXIS_ITEM));
+        // axis.addActionListener(AxisAction.get());
+        renderMenu.add(axisItem);
 
         bar.add(renderMenu);
 
