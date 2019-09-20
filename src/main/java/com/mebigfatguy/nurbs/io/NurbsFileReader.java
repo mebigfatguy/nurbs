@@ -44,8 +44,8 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.mebigfatguy.nurbs.model.KnotVector;
-import com.mebigfatguy.nurbs.model.NurbsMesh;
 import com.mebigfatguy.nurbs.model.NurbsModel;
+import com.mebigfatguy.nurbs.model.NurbsObject;
 import com.mebigfatguy.nurbs.model.UVIndex;
 
 public class NurbsFileReader {
@@ -112,7 +112,7 @@ public class NurbsFileReader {
             textContent.setLength(0);
 
             switch (localName) {
-                case "mesh":
+                case "object":
                     uOrder = Integer.parseInt(attributes.getValue("uOrder"));
                     vOrder = Integer.parseInt(attributes.getValue("vOrder"));
                     break;
@@ -140,8 +140,8 @@ public class NurbsFileReader {
                     nurbsModel.setLookFrom(parse3DPoint(textContent.toString()));
                     break;
 
-                case "mesh":
-                    nurbsModel.addObject(new NurbsMesh(uOrder, vOrder, activeGrid, activeUKnots, activeVKnots));
+                case "object":
+                    nurbsModel.addObject(new NurbsObject(uOrder, vOrder, activeGrid, activeUKnots, activeVKnots));
                     activeGrid = null;
                     activeUKnots = null;
                     activeVKnots = null;

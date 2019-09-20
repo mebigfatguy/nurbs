@@ -23,7 +23,7 @@
 	<xsd:complexType name="ObjectsType">
 		<xsd:sequence>
 			<xsd:element name="group" type="GroupType" minOccurs="0" maxOccurs="unbounded" />
-			<xsd:element name="mesh" type="MeshType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="object" type="ObjectType" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
 
@@ -33,7 +33,7 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-	<xsd:complexType name="MeshType">
+	<xsd:complexType name="ObjectType">
 		<xsd:sequence>
 			<xsd:element name="grid" type="GridType" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="knots" type="KnotsType" minOccurs="1" maxOccurs="1" />
