@@ -17,6 +17,29 @@
  */
 package com.mebigfatguy.nurbs.render;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class Mesh {
 
+    private float[][][] pts;
+    private float[][][] normals;
+
+    public Mesh(float[][][] pts, float[][][] normals) {
+        this.pts = pts;
+        this.normals = normals;
+    }
+
+    public float[][][] getPts() {
+        return pts;
+    }
+
+    public float[][][] getNormals() {
+        return normals;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }
