@@ -17,32 +17,25 @@
  */
 package com.mebigfatguy.nurbs.render;
 
-import java.util.List;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Triangulation {
+public class Triangle {
+    private Point[] pts;
 
-    private List<Triangle> triangles;
-    private Mesh mesh;
-
-    public Triangulation(List<Triangle> triangles, Mesh mesh) {
-        this.triangles = triangles;
-        this.mesh = mesh;
+    private Triangle(Point p1, Point p2, Point p3) {
+        pts = new Point[3];
+        pts[0] = p1;
+        pts[1] = p2;
+        pts[2] = p3;
     }
 
-    public List<Triangle> getTriangles() {
-        return triangles;
-    }
-
-    public Mesh getMesh() {
-        return mesh;
+    public Point[] get() {
+        return pts;
     }
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-
 }
