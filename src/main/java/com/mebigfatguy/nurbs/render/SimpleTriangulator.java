@@ -17,6 +17,19 @@
  */
 package com.mebigfatguy.nurbs.render;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class SimpleTriangulator implements Triangulator {
 
+    private Mesh mesh;
+
+    public SimpleTriangulator(Mesh mesh) {
+        this.mesh = mesh;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

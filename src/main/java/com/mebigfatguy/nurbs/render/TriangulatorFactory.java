@@ -22,7 +22,7 @@ public class TriangulatorFactory {
     private TriangulatorFactory() {
     }
 
-    public static Triangulator getTriangulator() {
-        return new SimpleTriangulator();
+    public static Triangulator getTriangulator(Mesh mesh) {
+        return new SimpleTriangulator(mesh);
     }
 }

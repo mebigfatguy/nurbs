@@ -17,6 +17,21 @@
  */
 package com.mebigfatguy.nurbs.render;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.mebigfatguy.nurbs.model.NurbsObject;
+
 public class SimpleMeshifier implements Meshifier {
 
+    private NurbsObject object;
+
+    public SimpleMeshifier(NurbsObject object) {
+        this.object = object;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

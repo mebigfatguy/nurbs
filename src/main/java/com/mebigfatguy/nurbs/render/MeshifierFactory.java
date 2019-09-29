@@ -17,12 +17,14 @@
  */
 package com.mebigfatguy.nurbs.render;
 
+import com.mebigfatguy.nurbs.model.NurbsObject;
+
 public final class MeshifierFactory {
 
     private MeshifierFactory() {
     }
 
-    public static Meshifier getMeshifier() {
-        return new SimpleMeshifier();
+    public static Meshifier getMeshifier(NurbsObject object) {
+        return new SimpleMeshifier(object);
     }
 }
