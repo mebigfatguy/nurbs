@@ -21,16 +21,16 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Triangle {
-    private Point[] pts;
+    private Vector[] pts;
 
-    private Triangle(Point p1, Point p2, Point p3) {
-        pts = new Point[3];
+    private Triangle(Vector p1, Vector p2, Vector p3) {
+        pts = new Vector[3];
         pts[0] = p1;
         pts[1] = p2;
         pts[2] = p3;
     }
 
-    public Point[] get() {
+    public Vector[] get() {
         return pts;
     }
 

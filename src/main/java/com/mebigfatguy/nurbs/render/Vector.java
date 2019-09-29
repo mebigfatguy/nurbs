@@ -20,11 +20,11 @@ package com.mebigfatguy.nurbs.render;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Point {
+public class Vector {
 
     float[] coordinates;
 
-    public Point(float x, float y, float z, float w) {
+    public Vector(float x, float y, float z, float w) {
         coordinates = new float[4];
         coordinates[0] = x;
         coordinates[1] = y;
