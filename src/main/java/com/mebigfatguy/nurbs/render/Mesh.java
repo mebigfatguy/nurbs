@@ -22,19 +22,19 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class Mesh {
 
-    private float[][][] pts;
-    private float[][][] normals;
+    private Vector[][] pts;
+    private Vector[][] normals;
 
-    public Mesh(float[][][] pts, float[][][] normals) {
+    public Mesh(Vector[][] pts, Vector[][] normals) {
         this.pts = pts;
         this.normals = normals;
     }
 
-    public float[][][] getPts() {
+    public Vector[][] getPts() {
         return pts;
     }
 
-    public float[][][] getNormals() {
+    public Vector[][] getNormals() {
         return normals;
     }
 
