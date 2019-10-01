@@ -20,18 +20,27 @@ package com.mebigfatguy.nurbs.render;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class Triangle {
-    private Vector[] pts;
+import com.mebigfatguy.nurbs.model.UVIndex;
 
-    private Triangle(Vector p1, Vector p2, Vector p3) {
-        pts = new Vector[3];
-        pts[0] = p1;
-        pts[1] = p2;
-        pts[2] = p3;
+public class Triangle {
+
+    private Mesh mesh;
+    private UVIndex[] indices;
+
+    private Triangle(Mesh mesh, UVIndex p1, UVIndex p2, UVIndex p3) {
+        this.mesh = mesh;
+        indices = new UVIndex[3];
+        indices[0] = p1;
+        indices[1] = p2;
+        indices[2] = p3;
     }
 
-    public Vector[] get() {
-        return pts;
+    public Mesh getMesh() {
+        return mesh;
+    }
+
+    public UVIndex[] getIndices() {
+        return indices;
     }
 
     @Override
