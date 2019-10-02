@@ -17,6 +17,8 @@
  */
 package com.mebigfatguy.nurbs.render;
 
+import com.mebigfatguy.nurbs.render.impl.SimpleTriangulator;
+
 public class TriangulatorFactory {
 
     private TriangulatorFactory() {

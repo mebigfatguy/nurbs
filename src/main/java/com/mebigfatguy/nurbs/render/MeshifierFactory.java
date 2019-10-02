@@ -18,6 +18,7 @@
 package com.mebigfatguy.nurbs.render;
 
 import com.mebigfatguy.nurbs.model.NurbsObject;
+import com.mebigfatguy.nurbs.render.impl.SimpleMeshifier;
 
 public final class MeshifierFactory {
 
