@@ -97,6 +97,10 @@ public class NurbsWindowSystem {
         for (Frame f : JFrame.getFrames()) {
             if (f.isVisible() && f instanceof NurbsWindow) {
             	f.requestFocus();
+                if (toolPalette.isVisible()) {
+                    toolPalette.toFront();
+                }
+
                 return (NurbsWindow) f;
             }
         }
