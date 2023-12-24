@@ -7,10 +7,23 @@
   <name>Nurbs</name>
   
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
   
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <mainClass>com.mebigfatguy.nurbs.ui.Nurbs</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
   <dependencies>
   	<dependency>
   		<groupId>org.apache.commons</groupId>
