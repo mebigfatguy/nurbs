@@ -93,6 +93,13 @@ public class NurbsWindowSystem {
                 return (NurbsWindow) f;
             }
         }
+        
+        for (Frame f : JFrame.getFrames()) {
+            if (f.isVisible() && f instanceof NurbsWindow) {
+            	f.requestFocus();
+                return (NurbsWindow) f;
+            }
+        }
 
         return null;
     }
