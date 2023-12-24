@@ -17,6 +17,6 @@
  */
 package com.mebigfatguy.nurbs.render;
 
-public interface Triangulator {
+public interface Triangulator extends Iterable<Triangle> {
 
 }

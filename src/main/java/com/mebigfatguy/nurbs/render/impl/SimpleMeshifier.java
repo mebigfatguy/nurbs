@@ -17,10 +17,13 @@
  */
 package com.mebigfatguy.nurbs.render.impl;
 
+import java.util.Iterator;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.mebigfatguy.nurbs.model.NurbsObject;
+import com.mebigfatguy.nurbs.render.Mesh;
 import com.mebigfatguy.nurbs.render.Meshifier;
 
 public class SimpleMeshifier implements Meshifier {
@@ -30,8 +33,14 @@ public class SimpleMeshifier implements Meshifier {
     public SimpleMeshifier(NurbsObject object) {
         this.object = object;
     }
-
+    
     @Override
+	public Iterator<Mesh> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

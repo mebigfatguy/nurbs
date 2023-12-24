@@ -38,13 +38,13 @@ public class NurbsPanel extends JPanel {
     private double zoomFactor;
     private Dimension pageSize;
     private NurbsModel nurbsModel;
-    private NurbsRenderer renderer;
+    private NurbsImager renderer;
 
     public NurbsPanel(NurbsModel model) {
         zoomFactor = 1.0;
         pageSize = new Dimension(DEFAULT_SIZE, DEFAULT_SIZE);
         nurbsModel = model;
-        renderer = new NurbsRenderer();
+        renderer = new NurbsImager();
     }
 
     @Override

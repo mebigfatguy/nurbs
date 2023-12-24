@@ -17,10 +17,13 @@
  */
 package com.mebigfatguy.nurbs.render.impl;
 
+import java.util.Iterator;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.mebigfatguy.nurbs.render.Mesh;
+import com.mebigfatguy.nurbs.render.Triangle;
 import com.mebigfatguy.nurbs.render.Triangulator;
 
 public class SimpleTriangulator implements Triangulator {
@@ -32,6 +35,11 @@ public class SimpleTriangulator implements Triangulator {
     }
 
     @Override
+	public Iterator<Triangle> iterator() {
+		return null;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

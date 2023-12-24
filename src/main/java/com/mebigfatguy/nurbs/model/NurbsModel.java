@@ -18,17 +18,17 @@
 package com.mebigfatguy.nurbs.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class NurbsModel {
+public class NurbsModel implements Iterable<NurbsObject> {
 
     private double[] lookAt;
     private double[] lookFrom;
     private double[][] transform;
-
     private List<NurbsObject> objects = new ArrayList<>();
 
     public double[] getLookAt() {
@@ -61,6 +61,11 @@ public class NurbsModel {
     }
 
     @Override
+	public Iterator<NurbsObject> iterator() {
+		return objects.iterator();
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }

@@ -18,6 +18,5 @@
 
 package com.mebigfatguy.nurbs.render;
 
-public interface Meshifier {
-
+public interface Meshifier extends Iterable<Mesh> {
 }
