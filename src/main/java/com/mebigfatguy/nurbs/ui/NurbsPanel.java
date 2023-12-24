@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 import javax.swing.JPanel;
 import javax.swing.JViewport;
@@ -37,11 +38,13 @@ public class NurbsPanel extends JPanel {
     private double zoomFactor;
     private Dimension pageSize;
     private NurbsModel nurbsModel;
+    private NurbsRenderer renderer;
 
     public NurbsPanel(NurbsModel model) {
         zoomFactor = 1.0;
         pageSize = new Dimension(DEFAULT_SIZE, DEFAULT_SIZE);
         nurbsModel = model;
+        renderer = new NurbsRenderer();
     }
 
     @Override
@@ -65,6 +68,8 @@ public class NurbsPanel extends JPanel {
             render.fillRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
             render.setColor(Color.BLACK);
             render.drawRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
+            
+            renderer.render(render, nurbsModel, xOffset + scaledPageSize.width / 2.0, yOffset + scaledPageSize.height/2.0, zoomFactor);
 
         } finally {
             render.dispose();
