@@ -36,7 +36,6 @@ public class SimpleMeshifier implements Meshifier {
     
     @Override
 	public Iterator<Mesh> iterator() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
