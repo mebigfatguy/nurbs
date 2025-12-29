@@ -28,14 +28,14 @@ public class NurbsObject {
     private int uOrder;
     private int vOrder;
 
-    private Map<UVIndex, double[]> gridPoints;
+    private GridPoints gridPoints;
     private List<KnotVector> uKnots;
     private List<KnotVector> vKnots;
 
-    public NurbsObject(int u, int v, Map<UVIndex, double[]> grid, List<KnotVector> uk, List<KnotVector> vk) {
+    public NurbsObject(int u, int v, GridPoints points, List<KnotVector> uk, List<KnotVector> vk) {
         uOrder = u;
         vOrder = v;
-        gridPoints = grid;
+        gridPoints = points;
         uKnots = uk;
         vKnots = vk;
     }
