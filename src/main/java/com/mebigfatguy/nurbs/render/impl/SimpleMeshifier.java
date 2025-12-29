@@ -36,7 +36,7 @@ public class SimpleMeshifier implements Meshifier {
     
     @Override
 	public Iterator<Mesh> iterator() {
-		return new SimpleMeshIterator(object);
+		return new SimpleMeshIterator(object, SimpleMeshIterator.DEFAULT_STEPS);
 	}
 
 	@Override

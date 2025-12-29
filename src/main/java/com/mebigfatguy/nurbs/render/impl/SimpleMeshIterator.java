@@ -7,13 +7,16 @@ import com.mebigfatguy.nurbs.render.Mesh;
 
 public class SimpleMeshIterator implements Iterator<Mesh> {
 
+	static int DEFAULT_STEPS = 10;
 	
     private NurbsObject object;
     private int curU;
     private int curV;
+    private int steps;
 
-    public SimpleMeshIterator(NurbsObject object) {
+    public SimpleMeshIterator(NurbsObject object, int steps) {
     	this.object = object;
+    	this.steps = steps;
     	curU = 0;
     	curV = 0;
     }
