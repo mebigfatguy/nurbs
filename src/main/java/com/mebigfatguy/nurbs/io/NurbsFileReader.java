@@ -23,7 +23,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,179 +45,180 @@ import com.mebigfatguy.nurbs.model.GridPoints;
 import com.mebigfatguy.nurbs.model.KnotVector;
 import com.mebigfatguy.nurbs.model.NurbsModel;
 import com.mebigfatguy.nurbs.model.NurbsObject;
-import com.mebigfatguy.nurbs.model.UVIndex;
 
 public class NurbsFileReader {
 
-    private static final String schemaFile = "/com/mebigfatguy/nurbs/io/nurbs.xsd";
+	private static final String schemaFile = "/com/mebigfatguy/nurbs/io/nurbs.xsd";
 
-    private static final Pattern point3DPattern = Pattern.compile("\\((-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?)\\)");
-    private static final Pattern point4DPattern = Pattern
-            .compile("\\((-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?)\\)");
-    private Path nurbsPath;
+	private static final Pattern point3DPattern = Pattern
+			.compile("\\((-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?),(-?[0-9]+(?:\\.[0-9]*)?)\\)");
+	private static final Pattern point4DPattern = Pattern.compile(
+			"\\((-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?),\\s*(-?[0-9]+(?:\\.[0-9]*)?)\\)");
+	private Path nurbsPath;
 
-    public NurbsFileReader(Path path) {
-        nurbsPath = path;
-    }
+	public NurbsFileReader(Path path) {
+		nurbsPath = path;
+	}
 
-    public NurbsModel readModel() throws IOException {
-        try (Reader r = Files.newBufferedReader(nurbsPath)) {
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            spf.setNamespaceAware(true);
+	public NurbsModel readModel() throws IOException {
+		try (Reader r = Files.newBufferedReader(nurbsPath)) {
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			spf.setNamespaceAware(true);
 
-            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(NurbsFileReader.class.getResource(schemaFile));
-            spf.setSchema(schema);
+			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema = factory.newSchema(NurbsFileReader.class.getResource(schemaFile));
+			spf.setSchema(schema);
 
-            SAXParser parser = spf.newSAXParser();
-            XMLReader reader = parser.getXMLReader();
+			SAXParser parser = spf.newSAXParser();
+			XMLReader reader = parser.getXMLReader();
 
-            NurbsModel model = new NurbsModel();
-            reader.setContentHandler(new NurbsHandler(model));
+			NurbsModel model = new NurbsModel();
+			reader.setContentHandler(new NurbsHandler(model));
 
-            reader.parse(new InputSource(r));
+			reader.parse(new InputSource(r));
 
-            return model;
-        } catch (SAXException | ParserConfigurationException e) {
-            throw new IOException("Failed parsing xml document: " + nurbsPath, e);
-        }
-    }
+			return model;
+		} catch (SAXException | ParserConfigurationException e) {
+			throw new IOException("Failed parsing xml document: " + nurbsPath, e);
+		}
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 
-    class NurbsHandler extends DefaultHandler {
+	class NurbsHandler extends DefaultHandler {
 
-        private NurbsModel nurbsModel;
-        private List<String> visitedNodes;
-        private StringBuilder textContent;
-        private int uOrder, vOrder;
-        private int gridWidth, gridHeight;
-        GridPoints activeGrid;
-        KnotVector[] activeUKnots;
-        KnotVector[] activeVKnots;
-        int curUKnot;
-        int curVKnot;
+		private NurbsModel nurbsModel;
+		private List<String> visitedNodes;
+		private StringBuilder textContent;
+		private int uOrder, vOrder;
+		private int gridWidth, gridHeight;
+		GridPoints activeGrid;
+		KnotVector[] activeUKnots;
+		KnotVector[] activeVKnots;
+		int curUKnot;
+		int curVKnot;
 
-        public NurbsHandler(NurbsModel model) {
-            nurbsModel = model;
-            visitedNodes = new ArrayList<>();
-            textContent = new StringBuilder();
-            curUKnot = 0;
-            curVKnot = 0;
-        }
+		public NurbsHandler(NurbsModel model) {
+			nurbsModel = model;
+			visitedNodes = new ArrayList<>();
+			textContent = new StringBuilder();
+			curUKnot = 0;
+			curVKnot = 0;
+		}
 
-        @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            visitedNodes.add(localName);
-            textContent.setLength(0);
+		@Override
+		public void startElement(String uri, String localName, String qName, Attributes attributes)
+				throws SAXException {
+			visitedNodes.add(localName);
+			textContent.setLength(0);
 
-            switch (localName) {
-                case "object":
-                    uOrder = Integer.parseInt(attributes.getValue("uOrder"));
-                    vOrder = Integer.parseInt(attributes.getValue("vOrder"));
-                    break;
+			switch (localName) {
+			case "object":
+				uOrder = Integer.parseInt(attributes.getValue("uOrder"));
+				vOrder = Integer.parseInt(attributes.getValue("vOrder"));
+				break;
 
-                case "grid":
-                    gridWidth = Integer.parseInt(attributes.getValue("uSize"));
-                    gridHeight = Integer.parseInt(attributes.getValue("vSize"));
-                    break;
+			case "grid":
+				gridWidth = Integer.parseInt(attributes.getValue("uSize"));
+				gridHeight = Integer.parseInt(attributes.getValue("vSize"));
+				break;
 
-                case "knots":
-                    activeUKnots = new KnotVector[vOrder + activeGrid.getHeight()];
-                    activeVKnots = new KnotVector[uOrder + activeGrid.getWidth()];
-                    break;
-            }
-        }
+			case "knots":
+				activeUKnots = new KnotVector[vOrder + activeGrid.getHeight()];
+				activeVKnots = new KnotVector[uOrder + activeGrid.getWidth()];
+				break;
+			}
+		}
 
-        @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
-            switch (localName) {
-                case "lookat":
-                    nurbsModel.setLookAt(parse3DPoint(textContent.toString()));
-                    break;
+		@Override
+		public void endElement(String uri, String localName, String qName) throws SAXException {
+			switch (localName) {
+			case "lookat":
+				nurbsModel.setLookAt(parse3DPoint(textContent.toString()));
+				break;
 
-                case "lookfrom":
-                    nurbsModel.setLookFrom(parse3DPoint(textContent.toString()));
-                    break;
+			case "lookfrom":
+				nurbsModel.setLookFrom(parse3DPoint(textContent.toString()));
+				break;
 
-                case "object":
-                    nurbsModel.addObject(new NurbsObject(uOrder, vOrder, activeGrid, activeUKnots, activeVKnots));
-                    activeGrid = null;
-                    activeUKnots = null;
-                    activeVKnots = null;
-                    break;
+			case "object":
+				nurbsModel.addObject(new NurbsObject(uOrder, vOrder, activeGrid, activeUKnots, activeVKnots));
+				activeGrid = null;
+				activeUKnots = null;
+				activeVKnots = null;
+				break;
 
-                case "grid":
-                    activeGrid = parseGrid(textContent.toString());
-                    break;
+			case "grid":
+				activeGrid = parseGrid(textContent.toString());
+				break;
 
-                case "uvector":
-                    activeUKnots[curUKnot++] = parseKnotVector(uOrder, textContent.toString());
-                    break;
+			case "uvector":
+				activeUKnots[curUKnot++] = parseKnotVector(uOrder, textContent.toString());
+				break;
 
-                case "vvector":
-                    activeVKnots[curVKnot++] = parseKnotVector(vOrder, textContent.toString());
-                    break;
-            }
-            visitedNodes.remove(visitedNodes.size() - 1);
-        }
+			case "vvector":
+				activeVKnots[curVKnot++] = parseKnotVector(vOrder, textContent.toString());
+				break;
+			}
+			visitedNodes.remove(visitedNodes.size() - 1);
+		}
 
-        @Override
-        public void characters(char[] ch, int start, int length) throws SAXException {
-            textContent.append(ch, start, length);
-        }
+		@Override
+		public void characters(char[] ch, int start, int length) throws SAXException {
+			textContent.append(ch, start, length);
+		}
 
-        private double[] parse3DPoint(String pt) {
-            Matcher m = point3DPattern.matcher(pt);
-            if (!m.matches()) {
-                throw new IllegalArgumentException(pt);
-            }
+		private double[] parse3DPoint(String pt) {
+			Matcher m = point3DPattern.matcher(pt);
+			if (!m.matches()) {
+				throw new IllegalArgumentException(pt);
+			}
 
-            double[] pt3d = new double[3];
-            for (int i = 0; i < 3; i++) {
-                pt3d[i] = Double.parseDouble(m.group(i + 1));
-            }
-            return pt3d;
-        }
+			double[] pt3d = new double[3];
+			for (int i = 0; i < 3; i++) {
+				pt3d[i] = Double.parseDouble(m.group(i + 1));
+			}
+			return pt3d;
+		}
 
-        private GridPoints parseGrid(String grid) {
-            Matcher m = point4DPattern.matcher(grid);
+		private GridPoints parseGrid(String grid) {
+			Matcher m = point4DPattern.matcher(grid);
 
-            double[][][] pts = new double[gridWidth][gridHeight][4];
-            for (int h = 0; h < gridHeight; h++) {
-            	for (int w = 0; w < gridWidth; w++) {
-                    if (m.find()) {
-                        double[] pt = new double[4];
-                        pt[0] = Double.parseDouble(m.group(1));
-                        pt[1] = Double.parseDouble(m.group(2));
-                        pt[2] = Double.parseDouble(m.group(3));
-                        pt[3] = Double.parseDouble(m.group(4));
-                        pts[w][h] = pt;
-                    }
-                }
-            }
-            return new GridPoints(gridWidth, gridHeight, pts);
-        }
+			double[][][] pts = new double[gridWidth][gridHeight][4];
+			for (int h = 0; h < gridHeight; h++) {
+				for (int w = 0; w < gridWidth; w++) {
+					if (m.find()) {
+						double[] pt = new double[4];
+						pt[0] = Double.parseDouble(m.group(1));
+						pt[1] = Double.parseDouble(m.group(2));
+						pt[2] = Double.parseDouble(m.group(3));
+						pt[3] = Double.parseDouble(m.group(4));
+						pts[w][h] = pt;
+					}
+				}
+			}
+			return new GridPoints(gridWidth, gridHeight, pts);
+		}
 
-        private KnotVector parseKnotVector(int order, String nv) {
-            String[] values = nv.split("\\s*,\\s*");
-            double[] knots = new double[values.length];
+		private KnotVector parseKnotVector(int order, String nv) {
+			String[] values = nv.split("\\s*,\\s*");
+			double[] knots = new double[values.length];
 
-            int i = 0;
-            for (String v : values) {
-                knots[i++] = Double.parseDouble(v);
-            }
+			int i = 0;
+			for (String v : values) {
+				knots[i++] = Double.parseDouble(v);
+			}
 
-            return new KnotVector(order, knots);
-        }
+			return new KnotVector(order, knots);
+		}
 
-        @Override
-        public String toString() {
-            return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-        }
-    }
+		@Override
+		public String toString() {
+			return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		}
+	}
 
 }

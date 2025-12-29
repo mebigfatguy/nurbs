@@ -21,7 +21,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 import javax.swing.JPanel;
 import javax.swing.JViewport;
@@ -33,77 +32,78 @@ import com.mebigfatguy.nurbs.model.NurbsModel;
 
 public class NurbsPanel extends JPanel {
 
-    private static final int DEFAULT_SIZE = 1000;
+	private static final int DEFAULT_SIZE = 1000;
 
-    private double zoomFactor;
-    private Dimension pageSize;
-    private NurbsModel nurbsModel;
-    private NurbsImager renderer;
+	private double zoomFactor;
+	private Dimension pageSize;
+	private NurbsModel nurbsModel;
+	private NurbsImager renderer;
 
-    public NurbsPanel(NurbsModel model) {
-        zoomFactor = 1.0;
-        pageSize = new Dimension(DEFAULT_SIZE, DEFAULT_SIZE);
-        nurbsModel = model;
-        renderer = new NurbsImager();
-    }
+	public NurbsPanel(NurbsModel model) {
+		zoomFactor = 1.0;
+		pageSize = new Dimension(DEFAULT_SIZE, DEFAULT_SIZE);
+		nurbsModel = model;
+		renderer = new NurbsImager();
+	}
 
-    @Override
-    public void paintComponent(Graphics g) {
-        Graphics2D render = (Graphics2D) g.create();
-        try {
-            render.setColor(Color.GRAY);
-            JViewport viewPort = (JViewport) getParent();
-            Dimension viewSize = viewPort.getSize();
-            render.fillRect(0, 0, viewSize.width, viewSize.height);
+	@Override
+	public void paintComponent(Graphics g) {
+		Graphics2D render = (Graphics2D) g.create();
+		try {
+			render.setColor(Color.GRAY);
+			JViewport viewPort = (JViewport) getParent();
+			Dimension viewSize = viewPort.getSize();
+			render.fillRect(0, 0, viewSize.width, viewSize.height);
 
-            Dimension scaledPageSize = (Dimension) pageSize.clone();
-            scaledPageSize.width *= zoomFactor;
-            scaledPageSize.height *= zoomFactor;
+			Dimension scaledPageSize = (Dimension) pageSize.clone();
+			scaledPageSize.width *= zoomFactor;
+			scaledPageSize.height *= zoomFactor;
 
-            // need to scale the page
-            render.setColor(Color.WHITE);
+			// need to scale the page
+			render.setColor(Color.WHITE);
 
-            int xOffset = (viewSize.width - scaledPageSize.width) / 2;
-            int yOffset = (viewSize.height - scaledPageSize.height) / 2;
-            render.fillRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
-            render.setColor(Color.BLACK);
-            render.drawRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
-            
-            renderer.render(render, nurbsModel, xOffset + scaledPageSize.width / 2.0, yOffset + scaledPageSize.height/2.0, zoomFactor);
+			int xOffset = (viewSize.width - scaledPageSize.width) / 2;
+			int yOffset = (viewSize.height - scaledPageSize.height) / 2;
+			render.fillRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
+			render.setColor(Color.BLACK);
+			render.drawRect(xOffset, yOffset, scaledPageSize.width, scaledPageSize.height);
 
-        } finally {
-            render.dispose();
-        }
-    }
+			renderer.render(render, nurbsModel, xOffset + scaledPageSize.width / 2.0,
+					yOffset + scaledPageSize.height / 2.0, zoomFactor);
 
-    @Override
-    public Dimension getPreferredSize() {
-        Dimension sz = (Dimension) pageSize.clone();
-        sz.width *= zoomFactor;
-        sz.height *= zoomFactor;
-        return sz;
-    }
+		} finally {
+			render.dispose();
+		}
+	}
 
-    public void setZoomLevel(ZoomLevel level) {
-        invalidate();
-        JViewport viewPort = (JViewport) getParent();
-        if (viewPort == null) {
-            return;
-        }
+	@Override
+	public Dimension getPreferredSize() {
+		Dimension sz = (Dimension) pageSize.clone();
+		sz.width *= zoomFactor;
+		sz.height *= zoomFactor;
+		return sz;
+	}
 
-        Dimension viewSize = viewPort.getSize();
-        if (viewSize.width == 0 || viewSize.height == 0) {
-            viewSize.width = DEFAULT_SIZE;
-            viewSize.height = DEFAULT_SIZE;
-        }
-        zoomFactor = level.getZoomLevel(pageSize, viewSize);
-        revalidate();
-        repaint();
-    }
+	public void setZoomLevel(ZoomLevel level) {
+		invalidate();
+		JViewport viewPort = (JViewport) getParent();
+		if (viewPort == null) {
+			return;
+		}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+		Dimension viewSize = viewPort.getSize();
+		if (viewSize.width == 0 || viewSize.height == 0) {
+			viewSize.width = DEFAULT_SIZE;
+			viewSize.height = DEFAULT_SIZE;
+		}
+		zoomFactor = level.getZoomLevel(pageSize, viewSize);
+		revalidate();
+		repaint();
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 
 }
