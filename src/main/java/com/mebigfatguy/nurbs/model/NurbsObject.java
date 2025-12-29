@@ -29,10 +29,10 @@ public class NurbsObject {
     private int vOrder;
 
     private GridPoints gridPoints;
-    private List<KnotVector> uKnots;
-    private List<KnotVector> vKnots;
+    private KnotVector[] uKnots;
+    private KnotVector[] vKnots;
 
-    public NurbsObject(int u, int v, GridPoints points, List<KnotVector> uk, List<KnotVector> vk) {
+    public NurbsObject(int u, int v, GridPoints points, KnotVector[] uk, KnotVector[] vk) {
         uOrder = u;
         vOrder = v;
         gridPoints = points;
@@ -47,6 +47,19 @@ public class NurbsObject {
     public int getVOrder() {
     	return vOrder;
     }
+    
+    public GridPoints getGridPoints() {
+    	return gridPoints;
+    }
+    
+    public KnotVector[] getUKnotVectors() {
+    	return uKnots;
+    }
+        
+    public KnotVector[] getVKnotVectors() {
+    	return vKnots;
+    }
+    
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);

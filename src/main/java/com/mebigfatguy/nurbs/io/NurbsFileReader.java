@@ -97,13 +97,17 @@ public class NurbsFileReader {
         private int uOrder, vOrder;
         private int gridWidth, gridHeight;
         GridPoints activeGrid;
-        List<KnotVector> activeUKnots;
-        List<KnotVector> activeVKnots;
+        KnotVector[] activeUKnots;
+        KnotVector[] activeVKnots;
+        int curUKnot;
+        int curVKnot;
 
         public NurbsHandler(NurbsModel model) {
             nurbsModel = model;
             visitedNodes = new ArrayList<>();
             textContent = new StringBuilder();
+            curUKnot = 0;
+            curVKnot = 0;
         }
 
         @Override
@@ -123,8 +127,8 @@ public class NurbsFileReader {
                     break;
 
                 case "knots":
-                    activeUKnots = new ArrayList<>();
-                    activeVKnots = new ArrayList<>();
+                    activeUKnots = new KnotVector[vOrder + activeGrid.getHeight()];
+                    activeVKnots = new KnotVector[uOrder + activeGrid.getWidth()];
                     break;
             }
         }
@@ -152,12 +156,11 @@ public class NurbsFileReader {
                     break;
 
                 case "uvector":
-                    activeUKnots.add(parseKnotVector(uOrder, textContent.toString()));
+                    activeUKnots[curUKnot++] = parseKnotVector(uOrder, textContent.toString());
                     break;
 
                 case "vvector":
-                    activeVKnots.add(parseKnotVector(vOrder, textContent.toString()));
-
+                    activeVKnots[curVKnot++] = parseKnotVector(vOrder, textContent.toString());
                     break;
             }
             visitedNodes.remove(visitedNodes.size() - 1);
