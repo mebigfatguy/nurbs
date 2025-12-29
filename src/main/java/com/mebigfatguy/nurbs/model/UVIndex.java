@@ -45,11 +45,9 @@ public class UVIndex {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof UVIndex)) {
+        if (!(o instanceof UVIndex that)) {
             return false;
         }
-
-        UVIndex that = (UVIndex) o;
 
         return uIndex == that.uIndex && vIndex == that.vIndex;
     }

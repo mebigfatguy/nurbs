@@ -39,7 +39,14 @@ public class NurbsObject {
         uKnots = uk;
         vKnots = vk;
     }
+    
+    public int getUOrder() {
+    	return uOrder;
+    }
 
+    public int getVOrder() {
+    	return vOrder;
+    }
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
